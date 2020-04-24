@@ -1,0 +1,17 @@
+includes:
+	- vendor/phpstan/phpstan-mockery/extension.neon
+	- vendor/phpstan/phpstan-phpunit/extension.neon
+
+parameters:
+	ignoreErrors:
+	    - '#Call to method PHPUnit\\Framework\\Assert::assertSame\(\) with .IPv.. and MicroModule\\ValueObject\\Web\\IPAddressVersion will always evaluate to false\.#'
+	    - '#Parameter \#1 \$value of class MicroModule\\ValueObject\\Number\\Integer constructor expects int, float given\.#'
+	    - '#Call to an undefined static method MicroModule\\ValueObject.*#'
+	    - '#MicroModule\\ValueObject.*?::__construct\(\) does not call parent constructor from MicroModule\\ValueObject.*?#'
+	    - '#MicroModule\\ValueObject.*?::__construct\(\) does not call parent constructor from Exception\.#'
+	    - '#Parameter \#.*? of class MicroModule\\ValueObject\\Geography\\.*? constructor expects MicroModule\\ValueObject\\Geography\\.*?, MicroModule\\ValueObject\\.*?given\.#'
+	    - '#Parameter \#.*? of class MicroModule\\ValueObject\\Number\\Complex constructor expects MicroModule\\ValueObject\\Number\\Real, MicroModule\\ValueObject\\ValueObjectInterface given\.#'
+	    - '#Return type \(int\) of method MicroModule\\ValueObject\\Number\\Integer::toNative\(\) should be compatible with return type \(float\) of method MicroModule\\ValueObject\\Number\\Real::toNative\(\)#'
+	    - '#Parameter \#1 \$value of class MicroModule\\ValueObject\\Geography\\.*?constructor expects float, string given\.#'
+	    - '#Parameter \#1 \$value of class MicroModule\\ValueObject\\Number\\Real constructor expects float, string given\.#'
+	    - '#Parameter \#1 \$value of class MicroModule\\ValueObject\\StringLiteral\\StringLiteral constructor expects string, int given#'

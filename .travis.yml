@@ -1,0 +1,30 @@
+
+language: php
+
+matrix:
+  include:
+    - php: 7.3
+  fast_finish: true
+
+env:
+  global:
+    TEST_CONFIG="phpunit.xml.dist"
+
+before_install:
+  - echo "memory_limit=2G" >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini || return 0
+
+install:
+  - travis_retry composer self-update
+  - composer install
+
+script:
+  - vendor/bin/phpstan analyse -l 6 -c phpstan.neon src tests
+  - vendor/bin/psalm --config=psalm.xml
+  - vendor/bin/ecs check src tests
+  - vendor/bin/phpmd src/ text phpmd.xml
+  - vendor/bin/phpunit --configuration $TEST_CONFIG
+  - composer validate --no-check-publish
+  - git log $(git describe --abbrev=0 --tags)...HEAD --no-merges --pretty=format:"* [%h](http://github.com/${TRAVIS_REPO_SLUG}/commit/%H) %s (%cN)"
+
+after_success:
+  - travis_retry php ./vendor/bin/php-coveralls -v --config .coveralls.yml -v;
