@@ -10,5 +10,3 @@ services:
       - ~/.composer/cache/:/.composer_cache/:rw
       - .:/app:rw
     working_dir: /app
-    restart: on-failure
-    stop_signal: INT

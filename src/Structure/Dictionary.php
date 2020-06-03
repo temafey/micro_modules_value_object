@@ -37,7 +37,7 @@ class Dictionary extends Collection
         }
         $fixedArray = SplFixedArray::fromArray($keyValuePairs);
 
-        return new self($fixedArray);
+        return new static($fixedArray);
     }
 
     /**

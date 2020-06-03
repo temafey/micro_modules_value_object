@@ -29,7 +29,7 @@ class Country implements ValueObjectInterface
         $codeString = func_get_arg(0);
         $code = CountryCode::byName($codeString);
 
-        return new self($code);
+        return new static($code);
     }
 
     /**

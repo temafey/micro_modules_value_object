@@ -42,7 +42,7 @@ class Complex implements ValueObjectInterface, NumberInterface
         $real = Real::fromNative($args[0]);
         $im = Real::fromNative($args[1]);
         /** @psalm-suppress ArgumentTypeCoercion */
-        return new self($real, $im);
+        return new static($real, $im);
     }
 
     /**
@@ -60,7 +60,7 @@ class Complex implements ValueObjectInterface, NumberInterface
         $real = new Real($realValue);
         $im = new Real($imValue);
 
-        return new self($real, $im);
+        return new static($real, $im);
     }
 
     /**

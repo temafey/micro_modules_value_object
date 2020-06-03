@@ -61,7 +61,7 @@ class Coordinate implements ValueObjectInterface
         $ellipsoid = Ellipsoid::fromNative($nativeEllipsoid);
 
         /** @psalm-suppress ArgumentTypeCoercion */
-        return new self($latitude, $longitude, $ellipsoid);
+        return new static($latitude, $longitude, $ellipsoid);
     }
 
     /**
