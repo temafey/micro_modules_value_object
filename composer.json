@@ -4,7 +4,7 @@
     "type": "library",
     "description": "A PHP library/collection of classes aimed immutable objects.",
     "require": {
-        "php": "^7.3",
+        "php": "^7.3 || ^8.0",
         "league/geotools": "^0.8.0",
         "marc-mabe/php-enum": "^4.0",
         "moneyphp/money": "^3.2",
