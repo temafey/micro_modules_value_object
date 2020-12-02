@@ -5,7 +5,7 @@
     "description": "A PHP library/collection of classes aimed immutable objects.",
     "require": {
         "php": "^7.3 || ^8.0",
-        "league/geotools": "^0.8.0",
+        "micro-module/geotools": "^0.8.2",
         "marc-mabe/php-enum": "^4.0",
         "moneyphp/money": "^3.2",
         "ramsey/uuid": "^3.8 || ^4.0",
