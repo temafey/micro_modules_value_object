@@ -9,7 +9,7 @@
         "marc-mabe/php-enum": "^4.0",
         "moneyphp/money": "^3.2",
         "ramsey/uuid": "^3.8 || ^4.0",
-        "zendframework/zend-validator": "^2.13"
+        "micro-module/laminas-validator": "^2.14.1"
     },
     "require-dev": {
         "php-parallel-lint/php-console-highlighter": "^0.4",
