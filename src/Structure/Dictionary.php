@@ -18,10 +18,8 @@ class Dictionary extends Collection
 {
     /**
      * Returns a new Dictionary object.
-     *
-     * @return self
      */
-    public static function fromNative(): ValueObjectInterface
+    public static function fromNative(): static
     {
         $array = func_get_arg(0);
 
@@ -31,7 +29,7 @@ class Dictionary extends Collection
         $keyValuePairs = [];
 
         foreach ($array as $key => $item) {
-            $key = new StringLiteral((string) $key);
+            $key = new StringLiteral((string)$key);
             $item = self::makeValueObject($item);
             $keyValuePairs[] = new KeyValuePair($key, $item);
         }
@@ -42,8 +40,6 @@ class Dictionary extends Collection
 
     /**
      * Returns a new Dictionary object.
-     *
-     * @param SplFixedArray $keyValuePairs
      */
     public function __construct(SplFixedArray $keyValuePairs)
     {
@@ -51,7 +47,9 @@ class Dictionary extends Collection
             if (false === $keyValuePair instanceof KeyValuePair) {
                 $type = is_object($keyValuePair) ? get_class($keyValuePair) : gettype($keyValuePair);
 
-                throw new InvalidArgumentException(sprintf('Passed SplFixedArray object must contains "KeyValuePair" objects only. "%s" given.', $type));
+                throw new InvalidArgumentException(
+                    sprintf('Passed SplFixedArray object must contains "KeyValuePair" objects only. "%s" given.', $type)
+                );
             }
         }
 
@@ -60,8 +58,6 @@ class Dictionary extends Collection
 
     /**
      * Returns a Collection of the keys.
-     *
-     * @return Collection
      */
     public function keys(): Collection
     {
@@ -77,8 +73,6 @@ class Dictionary extends Collection
 
     /**
      * Returns a Collection of the values.
-     *
-     * @return Collection
      */
     public function values(): Collection
     {
@@ -94,10 +88,6 @@ class Dictionary extends Collection
 
     /**
      * Tells whether $object is one of the keys.
-     *
-     * @param ValueObjectInterface $object
-     *
-     * @return bool
      */
     public function containsKey(ValueObjectInterface $object): bool
     {
@@ -108,10 +98,6 @@ class Dictionary extends Collection
 
     /**
      * Tells whether $object is one of the values.
-     *
-     * @param ValueObjectInterface $object
-     *
-     * @return bool
      */
     public function containsValue(ValueObjectInterface $object): bool
     {
@@ -122,20 +108,14 @@ class Dictionary extends Collection
 
     /**
      * Return native value.
-     *
-     * @return mixed[]
      */
-    public function toNative()
+    public function toNative(): array
     {
         return $this->toArray();
     }
 
     /**
      * Returns a native array representation of the Collection.
-     *
-     * @param bool $native
-     *
-     * @return mixed[]
      *
      * @SuppressWarnings(PHPMD)
      */

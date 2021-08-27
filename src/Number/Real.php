@@ -14,54 +14,44 @@ use MicroModule\ValueObject\ValueObjectInterface;
 class Real implements ValueObjectInterface, NumberInterface
 {
     /**
-     * @var float
+     * Real number value
+     *
+     * @psalm-consistent-constructor
      */
-    protected $value;
+    protected float $value;
 
     /**
      * Returns a Real object given a PHP native float as parameter.
-     *
-     * @return ValueObjectInterface|static
      */
-    public static function fromNative(): ValueObjectInterface
+    public static function fromNative(): static
     {
         $value = func_get_arg(0);
+        $value = filter_var($value, FILTER_VALIDATE_FLOAT);
+        if (false === $value) {
+            throw new InvalidNativeArgumentException($value, ['float']);
+        }
 
         return new static($value);
     }
 
     /**
      * Returns a Real object given a PHP native float as parameter.
-     *
-     * @param float $value
      */
     public function __construct(float $value)
     {
-        $value = filter_var($value, FILTER_VALIDATE_FLOAT);
-
-        if (false === $value) {
-            throw new InvalidNativeArgumentException($value, ['float']);
-        }
-
         $this->value = $value;
     }
 
     /**
      * Returns the native value of the real number.
-     *
-     * @return float
      */
-    public function toNative()
+    public function toNative(): float
     {
         return $this->value;
     }
 
     /**
      * Tells whether two Real are equal by comparing their values.
-     *
-     * @param ValueObjectInterface $real
-     *
-     * @return bool
      */
     public function sameValueAs(ValueObjectInterface $real): bool
     {
@@ -75,9 +65,7 @@ class Real implements ValueObjectInterface, NumberInterface
     /**
      * Returns the integer part of the Real number as a Integer.
      *
-     * @param RoundingMode $roundingMode Rounding mode of the conversion. Defaults to RoundingMode::HALF_UP.
-     *
-     * @return IntegerValueObject
+     * @param null|RoundingMode $roundingMode Rounding mode of the conversion. Defaults to RoundingMode::HALF_UP.
      */
     public function toInteger(?RoundingMode $roundingMode = null): IntegerValueObject
     {
@@ -86,7 +74,7 @@ class Real implements ValueObjectInterface, NumberInterface
         }
 
         $value = $this->toNative();
-        $integerValue = round($value, 0, $roundingMode->toNative());
+        $integerValue = (int)(round($value, 0, $roundingMode->toNative()));
 
         return new Integer($integerValue);
     }
@@ -94,9 +82,7 @@ class Real implements ValueObjectInterface, NumberInterface
     /**
      * Returns the absolute integer part of the Real number as a Natural.
      *
-     * @param RoundingMode $roundingMode Rounding mode of the conversion. Defaults to RoundingMode::HALF_UP.
-     *
-     * @return Natural
+     * @param null|RoundingMode $roundingMode Rounding mode of the conversion. Defaults to RoundingMode::HALF_UP.
      */
     public function toNatural(?RoundingMode $roundingMode = null): Natural
     {
@@ -108,11 +94,9 @@ class Real implements ValueObjectInterface, NumberInterface
 
     /**
      * Returns the string representation of the real value.
-     *
-     * @return string
      */
     public function __toString(): string
     {
-        return (string) $this->toNative();
+        return (string)$this->toNative();
     }
 }

@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace MicroModule\ValueObject\Tests\Unit\Number;
 
+use MicroModule\ValueObject\Exception\InvalidNativeArgumentException;
 use MicroModule\ValueObject\Number\Integer;
 use MicroModule\ValueObject\Number\Real;
 use MicroModule\ValueObject\Tests\Unit\TestCase;
 use MicroModule\ValueObject\ValueObjectInterface;
+use TypeError;
 
 class IntegerTest extends TestCase
 {
@@ -37,10 +39,16 @@ class IntegerTest extends TestCase
         $this->assertSame('87', $integer->__toString());
     }
 
-    /** @expectedException MicroModule\ValueObject\Exception\InvalidNativeArgumentException */
     public function testInvalidNativeArgument(): void
     {
+        $this->expectException(TypeError::class);
         new Integer(23.4);
+    }
+
+    public function testInvalidFromNativeArgument(): void
+    {
+        $this->expectException(InvalidNativeArgumentException::class);
+        Integer::fromNative(23.4);
     }
 
     public function testZeroToString(): void

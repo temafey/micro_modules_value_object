@@ -14,8 +14,6 @@ class Path extends StringLiteral
 {
     /**
      * Path constructor.
-     *
-     * @param string $value
      */
     public function __construct(string $value)
     {
@@ -25,6 +23,6 @@ class Path extends StringLiteral
             throw new InvalidNativeArgumentException($value, ['string (valid url path)']);
         }
 
-        $this->value = $filteredValue;
+        parent::__construct((string)$filteredValue);
     }
 }

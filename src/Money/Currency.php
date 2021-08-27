@@ -14,24 +14,18 @@ class Currency implements ValueObjectInterface
 {
     /**
      * Money\Currency object.
-     *
-     * @var BaseCurrency
      */
-    protected $currency;
+    protected BaseCurrency $currency;
 
     /**
      * CurrencyCode ValueObject.
-     *
-     * @var CurrencyCode
      */
-    protected $code;
+    protected CurrencyCode $code;
 
     /**
      * Returns a new Currency object from native string currency code.
-     *
-     * @return Currency|static
      */
-    public static function fromNative(): ValueObjectInterface
+    public static function fromNative(): static
     {
         $code = CurrencyCode::get(func_get_arg(0));
 
@@ -40,8 +34,6 @@ class Currency implements ValueObjectInterface
 
     /**
      * Currency constructor.
-     *
-     * @param CurrencyCode $code
      */
     public function __construct(CurrencyCode $code)
     {
@@ -51,20 +43,14 @@ class Currency implements ValueObjectInterface
 
     /**
      * Return native value.
-     *
-     * @return string
      */
-    public function toNative()
+    public function toNative(): string
     {
         return $this->getCode()->toNative();
     }
 
     /**
      * Tells whether two Currency are equal by comparing their names.
-     *
-     * @param ValueObjectInterface $currency
-     *
-     * @return bool
      *
      * @psalm-suppress UndefinedInterfaceMethod
      */
@@ -79,8 +65,6 @@ class Currency implements ValueObjectInterface
 
     /**
      * Returns currency code.
-     *
-     * @return CurrencyCode
      */
     public function getCode(): CurrencyCode
     {
@@ -89,8 +73,6 @@ class Currency implements ValueObjectInterface
 
     /**
      * Returns string representation of the currency.
-     *
-     * @return string
      */
     public function __toString(): string
     {

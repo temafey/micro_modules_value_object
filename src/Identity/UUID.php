@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace MicroModule\ValueObject\Identity;
 
+use InvalidArgumentException;
 use MicroModule\ValueObject\Exception\InvalidNativeArgumentException;
 use MicroModule\ValueObject\StringLiteral\StringLiteral;
 use MicroModule\ValueObject\ValueObjectInterface;
@@ -16,21 +17,23 @@ use Ramsey\Uuid\UuidInterface;
  */
 class UUID extends StringLiteral
 {
+    protected const UUID_VERSION_4 = 4;
+
+    protected const UUID_VERSION_6 = 6;
+
+    protected int $uuidVersion = self::UUID_VERSION_4;
+
     /**
      * UuidInterface object.
-     *
-     * @var UuidInterface
      */
-    protected $value;
+    protected UuidInterface $uuid;
 
     /**
      * Return UUID ValueObject.
      *
-     * @return UUID|static
-     *
      * @throws Exception
      */
-    public static function fromNative(): ValueObjectInterface
+    public static function fromNative(): static
     {
         $uuidStr = func_get_arg(0);
 
@@ -39,8 +42,6 @@ class UUID extends StringLiteral
 
     /**
      * Generate a new UUID string.
-     *
-     * @return string
      *
      * @throws Exception
      */
@@ -54,51 +55,32 @@ class UUID extends StringLiteral
     /**
      * UUID constructor.
      *
-     * @param string|null $value
-     *
      * @throws Exception
      */
     public function __construct(?string $value = null)
     {
-        if (null === $value) {
-            $this->value = BaseUuid::uuid4();
-
-            return;
-        }
-        $pattern = '/'.BaseUuid::VALID_PATTERN.'/';
-
-        if (!preg_match($pattern, $value)) {
+        if (null !== $value && !BaseUuid::isValid($value)) {
             throw new InvalidNativeArgumentException($value, ['UUID string']);
         }
-        $this->value = BaseUuid::fromString($value);
-    }
+        if (null === $value) {
+            $this->uuid = $this->generateUuid();
+        } else {
+            $this->uuid = BaseUuid::fromString($value);
+        }
 
-    /**
-     * Returns the value of the string.
-     *
-     * @return string
-     */
-    public function toNative()
-    {
-        return $this->value->toString();
+        parent::__construct($this->uuid->toString());
     }
 
     /**
      * Return Uuid object.
-     *
-     * @return UuidInterface
      */
     public function getUuid(): UuidInterface
     {
-        return $this->value;
+        return $this->uuid;
     }
 
     /**
      * Tells whether two UUID are equal by comparing their values.
-     *
-     * @param ValueObjectInterface $uuid
-     *
-     * @return bool
      */
     public function sameValueAs(ValueObjectInterface $uuid): bool
     {
@@ -110,12 +92,22 @@ class UUID extends StringLiteral
     }
 
     /**
-     * Tells whether the StringLiteral is empty.
-     *
-     * @return bool
+     * Tells whether the StringLiteral is empty
      */
     public function isEmpty(): bool
     {
         return false;
+    }
+
+    /**
+     * Returns new generated Uuid
+     */
+    protected function generateUuid(): UuidInterface
+    {
+        return match ($this->uuidVersion) {
+            self::UUID_VERSION_4 => BaseUuid::uuid4(),
+            self::UUID_VERSION_6 => BaseUuid::uuid6(),
+            default => throw new InvalidArgumentException(sprintf('Unknown Uuid version: `%d`!', $this->uuidVersion))
+        };
     }
 }

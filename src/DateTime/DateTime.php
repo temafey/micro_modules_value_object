@@ -13,32 +13,25 @@ class DateTime implements ValueObjectInterface
 {
     /**
      * Date ValueObject.
-     *
-     * @var Date
      */
-    protected $date;
+    protected Date $date;
 
     /**
      * Date ValueObject.
-     *
-     * @var Time
      */
-    protected $time;
+    protected Time $time;
 
     /**
      * Returns a new DateTime object from native values.
      *
-     * @return static
-     *
-     * @throws InvalidDateException
-     * @throws Exception
+     * @throws InvalidDateException|Exception
      */
-    public static function fromNative(): ValueObjectInterface
+    public static function fromNative(): static
     {
         $args = func_get_args();
 
         if (!isset($args['1'])) {
-            $dateTime = new BaseDateTime('@'.strtotime($args[0]));
+            $dateTime = new BaseDateTime('@' . strtotime($args[0]));
 
             return self::fromNativeDateTime($dateTime);
         }
@@ -51,12 +44,9 @@ class DateTime implements ValueObjectInterface
 
     /**
      * Return native value.
-     *
-     * @return BaseDateTime
-     *
      * @throws Exception
      */
-    public function toNative()
+    public function toNative(): BaseDateTime
     {
         return $this->toNativeDateTime();
     }
@@ -64,13 +54,9 @@ class DateTime implements ValueObjectInterface
     /**
      * Returns a new DateTime from a native PHP DateTime.
      *
-     * @param BaseDateTime $dateTime
-     *
-     * @return self
-     *
      * @throws InvalidDateException
      */
-    public static function fromNativeDateTime(BaseDateTime $dateTime): self
+    public static function fromNativeDateTime(BaseDateTime $dateTime): static
     {
         $date = Date::fromNativeDateTime($dateTime);
         $time = Time::fromNativeDateTime($dateTime);
@@ -81,10 +67,7 @@ class DateTime implements ValueObjectInterface
     /**
      * Returns current DateTime.
      *
-     * @return self
-     *
-     * @throws InvalidDateException
-     * @throws Exception
+     * @throws InvalidDateException|Exception
      */
     public static function now(): self
     {
@@ -93,9 +76,6 @@ class DateTime implements ValueObjectInterface
 
     /**
      * Returns a new DateTime object.
-     *
-     * @param Date $date
-     * @param Time $time
      */
     public function __construct(Date $date, ?Time $time = null)
     {
@@ -111,10 +91,6 @@ class DateTime implements ValueObjectInterface
     /**
      * Tells whether two DateTime are equal by comparing their values.
      *
-     * @param ValueObjectInterface $dateTime
-     *
-     * @return bool
-     *
      * @psalm-suppress UndefinedInterfaceMethod
      */
     public function sameValueAs(ValueObjectInterface $dateTime): bool
@@ -123,13 +99,13 @@ class DateTime implements ValueObjectInterface
             return false;
         }
 
-        return $this->getDate()->sameValueAs($dateTime->getDate()) && $this->getTime()->sameValueAs($dateTime->getTime());
+        return $this->getDate()->sameValueAs($dateTime->getDate()) && $this->getTime()->sameValueAs(
+                $dateTime->getTime()
+            );
     }
 
     /**
      * Returns date from current DateTime.
-     *
-     * @return Date
      */
     public function getDate(): Date
     {
@@ -138,8 +114,6 @@ class DateTime implements ValueObjectInterface
 
     /**
      * Returns time from current DateTime.
-     *
-     * @return Time
      */
     public function getTime(): Time
     {
@@ -148,8 +122,6 @@ class DateTime implements ValueObjectInterface
 
     /**
      * Returns a native PHP DateTime version of the current DateTime.
-     *
-     * @return BaseDateTime
      *
      * @throws Exception
      */

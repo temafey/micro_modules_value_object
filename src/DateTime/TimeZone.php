@@ -13,19 +13,15 @@ class TimeZone implements ValueObjectInterface
 {
     /**
      * Hour ValueObject.
-     *
-     * @var StringLiteral
      */
-    protected $name;
+    protected StringLiteral $name;
 
     /**
      * Returns a new Time object from native timezone name.
      *
-     * @return static
-     *
      * @throws InvalidTimeZoneException
      */
-    public static function fromNative(): ValueObjectInterface
+    public static function fromNative(): static
     {
         $args = func_get_args();
 
@@ -37,10 +33,6 @@ class TimeZone implements ValueObjectInterface
     /**
      * Returns a new Time from a native PHP DateTime.
      *
-     * @param DateTimeZone $timezone
-     *
-     * @return self
-     *
      * @throws InvalidTimeZoneException
      */
     public static function fromNativeDateTimeZone(DateTimeZone $timezone): self
@@ -51,8 +43,6 @@ class TimeZone implements ValueObjectInterface
     /**
      * Returns default TimeZone.
      *
-     * @return self
-     *
      * @throws InvalidTimeZoneException
      */
     public static function fromDefault(): self
@@ -62,8 +52,6 @@ class TimeZone implements ValueObjectInterface
 
     /**
      * Returns a new TimeZone object.
-     *
-     * @param StringLiteral $name
      *
      * @throws InvalidTimeZoneException
      */
@@ -78,18 +66,14 @@ class TimeZone implements ValueObjectInterface
 
     /**
      * Return native value.
-     *
-     * @return DateTimeZone
      */
-    public function toNative()
+    public function toNative(): DateTimeZone
     {
         return $this->toNativeDateTimeZone();
     }
 
     /**
      * Returns a native PHP DateTimeZone version of the current TimeZone.
-     *
-     * @return DateTimeZone
      */
     public function toNativeDateTimeZone(): DateTimeZone
     {
@@ -98,10 +82,6 @@ class TimeZone implements ValueObjectInterface
 
     /**
      * Tells whether two DateTimeZone are equal by comparing their names.
-     *
-     * @param ValueObjectInterface $timezone
-     *
-     * @return bool
      *
      * @psalm-suppress UndefinedInterfaceMethod
      */
@@ -116,8 +96,6 @@ class TimeZone implements ValueObjectInterface
 
     /**
      * Returns timezone name.
-     *
-     * @return StringLiteral
      */
     public function getName(): StringLiteral
     {
@@ -126,8 +104,6 @@ class TimeZone implements ValueObjectInterface
 
     /**
      * Returns timezone name as string.
-     *
-     * @return string
      */
     public function __toString(): string
     {

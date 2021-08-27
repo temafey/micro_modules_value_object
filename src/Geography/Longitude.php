@@ -16,8 +16,6 @@ class Longitude extends Real
     /**
      * Returns a new Longitude object.
      *
-     * @param float $value
-     *
      * @throws InvalidNativeArgumentException
      */
     public function __construct(float $value)
@@ -26,6 +24,6 @@ class Longitude extends Real
         $coordinate = new BaseCoordinate([0, $value]);
         $longitude = $coordinate->getLongitude();
 
-        $this->value = $longitude;
+        parent::__construct($longitude);
     }
 }

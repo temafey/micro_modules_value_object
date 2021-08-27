@@ -1,9 +1,11 @@
 <?xml version="1.0"?>
 <psalm
-    totallyTyped="false"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns="https://getpsalm.org/schema/config"
-    xsi:schemaLocation="https://getpsalm.org/schema/config file:///app/vendor/vimeo/psalm/config.xsd"
+        totallyTyped="false"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="https://getpsalm.org/schema/config"
+        xsi:schemaLocation="https://getpsalm.org/schema/config file:///app/vendor/vimeo/psalm/config.xsd"
+        cacheDirectory="vendor/vimeo/psalm/.cache/"
+        memoizeMethodCallResults="true"
 >
     <projectFiles>
         <directory name="src" />
@@ -32,7 +34,6 @@
         <MissingReturnType errorLevel="info" />
         <MissingPropertyType errorLevel="info" />
         <InvalidDocblock errorLevel="info" />
-        <MisplacedRequiredParam errorLevel="info" />
 
         <PropertyNotSetInConstructor errorLevel="info" />
         <MissingConstructor errorLevel="info" />
@@ -49,5 +50,12 @@
         <RawObjectIteration errorLevel="info" />
 
         <InvalidStringClass errorLevel="info" />
+
+        <UnsafeInstantiation errorLevel="suppress"/>
+
+        <ParamNameMismatch errorLevel="suppress" />
+
+        <MissingImmutableAnnotation errorLevel="suppress" />
+
     </issueHandlers>
 </psalm>

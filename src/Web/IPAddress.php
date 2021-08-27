@@ -13,8 +13,6 @@ class IPAddress extends Domain
 {
     /**
      * Returns a new IPAddress.
-     *
-     * @param string $value
      */
     public function __construct(string $value)
     {
@@ -24,13 +22,11 @@ class IPAddress extends Domain
             throw new InvalidNativeArgumentException($value, ['string (valid ip address)']);
         }
 
-        $this->value = $filteredValue;
+        parent::__construct($filteredValue);
     }
 
     /**
      * Returns the version (IPv4 or IPv6) of the ip address.
-     *
-     * @return IPAddressVersion
      */
     public function getVersion(): IPAddressVersion
     {

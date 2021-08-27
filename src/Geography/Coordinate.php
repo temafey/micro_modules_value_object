@@ -20,38 +20,33 @@ class Coordinate implements ValueObjectInterface
 {
     /**
      * Latitude ValueObject.
-     *
-     * @var Latitude
      */
-    protected $latitude;
+    protected Latitude $latitude;
 
     /**
      * Longitude ValueObject.
-     *
-     * @var Longitude
      */
-    protected $longitude;
+    protected Longitude $longitude;
 
     /**
      * Ellipsoid ValueObject.
-     *
-     * @var Ellipsoid
      */
-    protected $ellipsoid;
+    protected Ellipsoid $ellipsoid;
 
     /**
      * Returns a new Coordinate object from native PHP arguments.
      *
-     * @return self
-     *
      * @throws BadMethodCallException
      */
-    public static function fromNative(): ValueObjectInterface
+    public static function fromNative(): static
     {
         $args = func_get_args();
+        $countArgs = count($args);
 
-        if (count($args) < 2 || count($args) > 3) {
-            throw new BadMethodCallException('You must provide 2 to 3 arguments: 1) latitude, 2) longitude, 3) valid ellipsoid type (optional)');
+        if ($countArgs < 2 || $countArgs > 3) {
+            throw new BadMethodCallException(
+                'You must provide 2 to 3 arguments: 1) latitude, 2) longitude, 3) valid ellipsoid type (optional)'
+            );
         }
 
         $coordinate = new BaseCoordinate([$args[0], $args[1]]);
@@ -66,10 +61,6 @@ class Coordinate implements ValueObjectInterface
 
     /**
      * Returns a new Coordinate object.
-     *
-     * @param Latitude  $latitude
-     * @param Longitude $longitude
-     * @param Ellipsoid $ellipsoid
      */
     public function __construct(Latitude $latitude, Longitude $longitude, ?Ellipsoid $ellipsoid = null)
     {
@@ -84,20 +75,14 @@ class Coordinate implements ValueObjectInterface
 
     /**
      * Return native value.
-     *
-     * @return string
      */
-    public function toNative()
+    public function toNative(): string
     {
         return $this->__toString();
     }
 
     /**
      * Tells whether tow Coordinate objects are equal.
-     *
-     * @param ValueObjectInterface $coordinate
-     *
-     * @return bool
      *
      * @psalm-suppress UndefinedInterfaceMethod
      */
@@ -108,15 +93,12 @@ class Coordinate implements ValueObjectInterface
         }
 
         return $this->getLatitude()->sameValueAs($coordinate->getLatitude()) &&
-               $this->getLongitude()->sameValueAs($coordinate->getLongitude()) &&
-               $this->getEllipsoid()->sameValueAs($coordinate->getEllipsoid())
-        ;
+            $this->getLongitude()->sameValueAs($coordinate->getLongitude()) &&
+            $this->getEllipsoid()->sameValueAs($coordinate->getEllipsoid());
     }
 
     /**
      * Returns latitude.
-     *
-     * @return Latitude
      */
     public function getLatitude(): Latitude
     {
@@ -125,8 +107,6 @@ class Coordinate implements ValueObjectInterface
 
     /**
      * Returns longitude.
-     *
-     * @return Longitude
      */
     public function getLongitude(): Longitude
     {
@@ -135,8 +115,6 @@ class Coordinate implements ValueObjectInterface
 
     /**
      * Returns ellipsoid.
-     *
-     * @return Ellipsoid
      */
     public function getEllipsoid(): Ellipsoid
     {
@@ -145,8 +123,6 @@ class Coordinate implements ValueObjectInterface
 
     /**
      * Returns a degrees/minutes/seconds representation of the coordinate.
-     *
-     * @return StringLiteral
      */
     public function toDegreesMinutesSeconds(): StringLiteral
     {
@@ -159,8 +135,6 @@ class Coordinate implements ValueObjectInterface
 
     /**
      * Returns a decimal minutes representation of the coordinate.
-     *
-     * @return StringLiteral
      */
     public function toDecimalMinutes(): StringLiteral
     {
@@ -173,8 +147,6 @@ class Coordinate implements ValueObjectInterface
 
     /**
      * Returns a Universal Transverse Mercator projection representation of the coordinate in meters.
-     *
-     * @return StringLiteral
      */
     public function toUniversalTransverseMercator(): StringLiteral
     {
@@ -187,12 +159,6 @@ class Coordinate implements ValueObjectInterface
 
     /**
      * Calculates the distance between two Coordinate objects.
-     *
-     * @param Coordinate      $coordinate
-     * @param DistanceUnit    $unit
-     * @param DistanceFormula $formula
-     *
-     * @return Real
      */
     public function distanceFrom(self $coordinate, ?DistanceUnit $unit = null, ?DistanceFormula $formula = null): Real
     {
@@ -218,8 +184,6 @@ class Coordinate implements ValueObjectInterface
 
     /**
      * Returns a native string version of the Coordinates object in format "$latitude,$longitude".
-     *
-     * @return string
      */
     public function __toString(): string
     {
@@ -228,10 +192,6 @@ class Coordinate implements ValueObjectInterface
 
     /**
      * Returns the underlying Coordinate object.
-     *
-     * @param Coordinate $coordinate
-     *
-     * @return BaseCoordinate
      */
     protected static function getBaseCoordinate(self $coordinate): BaseCoordinate
     {

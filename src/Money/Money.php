@@ -18,24 +18,18 @@ class Money implements ValueObjectInterface
 {
     /**
      * Money\Money object.
-     *
-     * @var BaseMoney
      */
-    protected $money;
+    protected BaseMoney $money;
 
     /**
      * Currency ValueObject.
-     *
-     * @var Currency
      */
-    protected $currency;
+    protected Currency $currency;
 
     /**
      * Returns a Money object from native int amount and string currency code.
-     *
-     * @return Money|static
      */
-    public static function fromNative(): ValueObjectInterface
+    public static function fromNative(): static
     {
         $args = func_get_args();
 
@@ -47,9 +41,6 @@ class Money implements ValueObjectInterface
 
     /**
      * Returns a Money object.
-     *
-     * @param IntegerValueObject $amount   Amount expressed in the smallest units of $currency (e.g. cents)
-     * @param Currency           $currency Currency of the money object
      */
     public function __construct(IntegerValueObject $amount, Currency $currency)
     {
@@ -60,20 +51,14 @@ class Money implements ValueObjectInterface
 
     /**
      * Return native value.
-     *
-     * @return string
      */
-    public function toNative()
+    public function toNative(): string
     {
         return $this->__toString();
     }
 
     /**
      *  Tells whether two Currency are equal by comparing their amount and currency.
-     *
-     * @param ValueObjectInterface $money
-     *
-     * @return bool
      *
      * @psalm-suppress UndefinedInterfaceMethod
      */
@@ -83,23 +68,21 @@ class Money implements ValueObjectInterface
             return false;
         }
 
-        return $this->getAmount()->sameValueAs($money->getAmount()) && $this->getCurrency()->sameValueAs($money->getCurrency());
+        return $this->getAmount()->sameValueAs($money->getAmount()) && $this->getCurrency()->sameValueAs(
+                $money->getCurrency()
+            );
     }
 
     /**
      * Returns money amount.
-     *
-     * @return IntegerValueObject
      */
     public function getAmount(): IntegerValueObject
     {
-        return new IntegerValueObject((int) $this->money->getAmount());
+        return new IntegerValueObject((int)$this->money->getAmount());
     }
 
     /**
      * Returns money currency.
-     *
-     * @return Currency
      */
     public function getCurrency(): Currency
     {
@@ -111,8 +94,6 @@ class Money implements ValueObjectInterface
      * Use a negative quantity for subtraction.
      *
      * @param IntegerValueObject $quantity Quantity to add
-     *
-     * @return Money
      */
     public function add(IntegerValueObject $quantity): self
     {
@@ -123,12 +104,8 @@ class Money implements ValueObjectInterface
 
     /**
      * Multiply the Money amount for a given number and returns a new Money object.
-     * Use 0 < Real $multipler < 1 for division.
-     *
-     * @param Real              $multiplier
+     * @param Real $multiplier Use 0 < Real $multiplier < 1 for division
      * @param RoundingMode|null $roundingMode Rounding mode of the operation. Defaults to RoundingMode::HALF_UP.
-     *
-     * @return Money
      */
     public function multiply(Real $multiplier, ?RoundingMode $roundingMode = null): self
     {
@@ -137,15 +114,13 @@ class Money implements ValueObjectInterface
         }
 
         $amount = $this->getAmount()->toNative() * $multiplier->toNative();
-        $roundedAmount = new IntegerValueObject(round($amount, 0, $roundingMode->toNative()));
+        $roundedAmount = new IntegerValueObject((int)round($amount, 0, $roundingMode->toNative()));
 
         return new static($roundedAmount, $this->getCurrency());
     }
 
     /**
      * Returns a string representation of the Money value in format "CUR AMOUNT" (e.g.: EUR 1000).
-     *
-     * @return string
      */
     public function __toString(): string
     {

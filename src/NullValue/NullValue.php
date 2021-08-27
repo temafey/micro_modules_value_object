@@ -16,7 +16,7 @@ class NullValue implements ValueObjectInterface
     /**
      * @throws BadMethodCallException
      */
-    public static function fromNative(): ValueObjectInterface
+    public static function fromNative(): static
     {
         throw new BadMethodCallException('Cannot create a NullValue object via this method.');
     }
@@ -33,20 +33,14 @@ class NullValue implements ValueObjectInterface
 
     /**
      * Returns a new NullValue object.
-     *
-     * @return static
      */
-    public static function create()
+    public static function create(): static
     {
         return new static();
     }
 
     /**
      * Tells whether two objects are both NullValue.
-     *
-     * @param ValueObjectInterface $null
-     *
-     * @return bool
      */
     public function sameValueAs(ValueObjectInterface $null): bool
     {
@@ -55,8 +49,6 @@ class NullValue implements ValueObjectInterface
 
     /**
      * Returns a string representation of the NullValue object.
-     *
-     * @return string
      */
     public function __toString(): string
     {

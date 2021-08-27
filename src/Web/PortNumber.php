@@ -14,8 +14,6 @@ class PortNumber extends Natural implements PortNumberInterface
 {
     /**
      * Returns a PortNumber object.
-     *
-     * @param int $value
      */
     public function __construct(int $value)
     {

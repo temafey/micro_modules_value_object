@@ -20,10 +20,8 @@ class Hour extends Natural
 
     /**
      * Returns a new Hour from native int value.
-     *
-     * @return ValueObjectInterface|static
      */
-    public static function fromNative(): ValueObjectInterface
+    public static function fromNative(): static
     {
         $value = func_get_arg(0);
 
@@ -32,8 +30,6 @@ class Hour extends Natural
 
     /**
      * Returns a new Hour object.
-     *
-     * @param int $value
      */
     public function __construct(int $value)
     {
@@ -52,15 +48,11 @@ class Hour extends Natural
 
     /**
      * Returns the current hour.
-     *
-     * @return Hour
-     *
-     * @throws Exception
      */
     public static function now(): self
     {
         $now = new DateTime('now');
-        $hour = (int) $now->format('G');
+        $hour = (int)$now->format('G');
 
         return new static($hour);
     }

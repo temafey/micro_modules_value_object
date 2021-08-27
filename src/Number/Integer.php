@@ -10,30 +10,20 @@ use MicroModule\ValueObject\ValueObjectInterface;
 /**
  * Class Integer.
  */
-class Integer extends Real
+class Integer implements ValueObjectInterface, NumberInterface
 {
+    protected int $value;
+
     /**
      * Returns a Integer object given a PHP native int as parameter.
-     *
-     * @param int $value
      */
     public function __construct(int $value)
     {
-        $value = filter_var($value, FILTER_VALIDATE_INT);
-
-        if (false === $value) {
-            throw new InvalidNativeArgumentException($value, ['int']);
-        }
-
         $this->value = $value;
     }
 
     /**
      * Tells whether two Integer are equal by comparing their values.
-     *
-     * @param ValueObjectInterface $integer
-     *
-     * @return bool
      */
     public function sameValueAs(ValueObjectInterface $integer): bool
     {
@@ -46,34 +36,26 @@ class Integer extends Real
 
     /**
      * Returns the value of the integer number.
-     *
-     * @return int
      */
-    public function toNative()
+    public function toNative(): int
     {
-        $value = parent::toNative();
-
-        return (int) $value;
+        return $this->value;
     }
 
     /**
      * Returns a Real with the value of the Integer.
-     *
-     * @return Real
      */
     public function toReal(): Real
     {
-        $value = $this->toNative();
+        $value = (float)$this->toNative();
 
         return new Real($value);
     }
 
     /**
      * Increment value.
-     *
-     * @return $this
      */
-    public function inc(): self
+    public function inc(): static
     {
         ++$this->value;
 
@@ -82,13 +64,30 @@ class Integer extends Real
 
     /**
      * Decrement value.
-     *
-     * @return $this
      */
-    public function decr(): self
+    public function decr(): static
     {
         --$this->value;
 
         return $this;
+    }
+
+    public static function fromNative(): static
+    {
+        $value = func_get_arg(0);
+        $value = filter_var($value, FILTER_VALIDATE_INT);
+        if (false === $value) {
+            throw new InvalidNativeArgumentException($value, ['int']);
+        }
+
+        return new static($value);
+    }
+
+    /**
+     * Returns a string representation of the integer value.
+     */
+    public function __toString(): string
+    {
+        return (string)$this->toNative();
     }
 }

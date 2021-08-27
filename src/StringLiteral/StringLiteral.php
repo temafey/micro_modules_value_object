@@ -20,10 +20,8 @@ class StringLiteral implements ValueObjectInterface
 
     /**
      * Returns a StringLiteral object given a PHP native string as parameter.
-     *
-     * @return StringLiteral|static
      */
-    public static function fromNative(): ValueObjectInterface
+    public static function fromNative(): static
     {
         $value = func_get_arg(0);
 
@@ -32,8 +30,6 @@ class StringLiteral implements ValueObjectInterface
 
     /**
      * Returns a StringLiteral object given a PHP native string as parameter.
-     *
-     * @param string $value
      */
     public function __construct(string $value)
     {
@@ -42,20 +38,14 @@ class StringLiteral implements ValueObjectInterface
 
     /**
      * Returns the value of the string.
-     *
-     * @return string
      */
-    public function toNative()
+    public function toNative(): string
     {
         return $this->value;
     }
 
     /**
      * Tells whether two string literals are equal by comparing their values.
-     *
-     * @param ValueObjectInterface $stringLiteral
-     *
-     * @return bool
      */
     public function sameValueAs(ValueObjectInterface $stringLiteral): bool
     {
@@ -68,8 +58,6 @@ class StringLiteral implements ValueObjectInterface
 
     /**
      * Tells whether the StringLiteral is empty.
-     *
-     * @return bool
      */
     public function isEmpty(): bool
     {
@@ -78,8 +66,6 @@ class StringLiteral implements ValueObjectInterface
 
     /**
      * Returns the string value itself.
-     *
-     * @return string
      */
     public function __toString(): string
     {

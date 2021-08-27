@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace MicroModule\ValueObject\Tests\Unit\StringLiteral;
 
+use MicroModule\ValueObject\Exception\InvalidNativeArgumentException;
 use MicroModule\ValueObject\StringLiteral\StringLiteral;
 use MicroModule\ValueObject\Tests\Unit\TestCase;
 use MicroModule\ValueObject\ValueObjectInterface;
+use TypeError;
 
 class StringLiteralTest extends TestCase
 {
@@ -38,9 +40,9 @@ class StringLiteralTest extends TestCase
         $this->assertFalse($foo1->sameValueAs($mock));
     }
 
-    /** @expectedException \MicroModule\ValueObject\Exception\InvalidNativeArgumentException */
     public function testInvalidNativeArgument(): void
     {
+        $this->expectException(TypeError::class);
         new StringLiteral(12);
     }
 

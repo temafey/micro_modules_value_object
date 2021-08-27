@@ -14,6 +14,6 @@ class NullFragmentIdentifier extends FragmentIdentifier implements FragmentIdent
      */
     public function __construct()
     {
-        $this->value = '';
+        parent::__construct('');
     }
 }

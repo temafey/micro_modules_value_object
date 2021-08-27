@@ -15,8 +15,6 @@ class QueryString extends StringLiteral implements QueryStringInterface
 {
     /**
      * Returns a new QueryString.
-     *
-     * @param string $value
      */
     public function __construct(string $value)
     {
@@ -24,13 +22,11 @@ class QueryString extends StringLiteral implements QueryStringInterface
             throw new InvalidNativeArgumentException($value, ['string (valid query string)']);
         }
 
-        $this->value = $value;
+        parent::__construct($value);
     }
 
     /**
      * Returns a Dictionary structured representation of the query string.
-     *
-     * @return Dictionary
      */
     public function toDictionary(): Dictionary
     {

@@ -11,8 +11,6 @@ class Kelvin extends Temperature
 {
     /**
      * Convert to Celsius ValueObject type.
-     *
-     * @return Celsius
      */
     public function toCelsius(): Celsius
     {
@@ -21,18 +19,14 @@ class Kelvin extends Temperature
 
     /**
      * Convert to Kelvin ValueObject type.
-     *
-     * @return Kelvin|static
      */
-    public function toKelvin(): self
+    public function toKelvin(): static
     {
         return new static($this->value);
     }
 
     /**
      * Convert to Fahrenheit ValueObject type.
-     *
-     * @return Fahrenheit
      */
     public function toFahrenheit(): Fahrenheit
     {
