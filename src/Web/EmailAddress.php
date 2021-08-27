@@ -25,13 +25,11 @@ class EmailAddress extends StringLiteral
             throw new InvalidNativeArgumentException($value, ['string (valid email address)']);
         }
 
-        $this->value = $filteredValue;
+        parent::__construct($filteredValue);
     }
 
     /**
      * Returns the local part of the email address.
-     *
-     * @return StringLiteral
      */
     public function getLocalPart(): StringLiteral
     {
@@ -42,8 +40,6 @@ class EmailAddress extends StringLiteral
 
     /**
      * Returns the domain part of the email address.
-     *
-     * @return Domain
      */
     public function getDomainPart(): Domain
     {

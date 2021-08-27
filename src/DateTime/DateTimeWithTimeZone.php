@@ -17,27 +17,20 @@ class DateTimeWithTimeZone implements ValueObjectInterface
 {
     /**
      * DateTime ValueObject.
-     *
-     * @var DateTime
      */
-    protected $dateTime;
+    protected DateTime $dateTime;
 
     /**
      * TimeZone ValueObject.
-     *
-     * @var TimeZone|null
      */
-    protected $timeZone;
+    protected ?TimeZone $timeZone;
 
     /**
      * Returns a new DateTime object from native values.
      *
-     * @return ValueObjectInterface|static
-     *
-     * @throws InvalidDateException
-     * @throws InvalidTimeZoneException
+     * @throws InvalidDateException|InvalidTimeZoneException
      */
-    public static function fromNative(): ValueObjectInterface
+    public static function fromNative(): static
     {
         $args = func_get_args();
 
@@ -54,12 +47,7 @@ class DateTimeWithTimeZone implements ValueObjectInterface
     /**
      * Returns a new DateTime from a native PHP DateTime.
      *
-     * @param BaseDateTime $nativeDatetime
-     *
-     * @return DateTimeWithTimeZone
-     *
-     * @throws InvalidDateException
-     * @throws InvalidTimeZoneException
+     * @throws InvalidDateException|InvalidTimeZoneException
      */
     public static function fromNativeDateTime(BaseDateTime $nativeDatetime): self
     {
@@ -72,10 +60,7 @@ class DateTimeWithTimeZone implements ValueObjectInterface
     /**
      * Returns a DateTimeWithTimeZone object using current DateTime and default TimeZone.
      *
-     * @return DateTimeWithTimeZone
-     *
-     * @throws InvalidDateException
-     * @throws InvalidTimeZoneException
+     * @throws InvalidDateException|InvalidTimeZoneException
      */
     public static function now(): self
     {
@@ -84,9 +69,6 @@ class DateTimeWithTimeZone implements ValueObjectInterface
 
     /**
      * Returns a new DateTimeWithTimeZone object.
-     *
-     * @param DateTime $datetime
-     * @param TimeZone $timezone
      */
     public function __construct(DateTime $datetime, ?TimeZone $timezone = null)
     {
@@ -97,21 +79,15 @@ class DateTimeWithTimeZone implements ValueObjectInterface
     /**
      * Return native value.
      *
-     * @return BaseDateTime
-     *
      * @throws Exception
      */
-    public function toNative()
+    public function toNative(): BaseDateTime
     {
         return $this->toNativeDateTime();
     }
 
     /**
      * Tells whether two DateTimeWithTimeZone are equal by comparing their values.
-     *
-     * @param ValueObjectInterface $dateTimeWithTimeZone
-     *
-     * @return bool
      *
      * @psalm-suppress UndefinedInterfaceMethod
      * @psalm-suppress PossiblyNullArgument
@@ -125,17 +101,15 @@ class DateTimeWithTimeZone implements ValueObjectInterface
         return
             $this->getDateTime()->sameValueAs($dateTimeWithTimeZone->getDateTime()) &&
             (
-                ($this->timeZone && $dateTimeWithTimeZone->getTimeZone() && $this->timeZone->sameValueAs($dateTimeWithTimeZone->getTimeZone())) ||
+                ($this->timeZone && $dateTimeWithTimeZone->getTimeZone() && $this->timeZone->sameValueAs(
+                        $dateTimeWithTimeZone->getTimeZone()
+                    )) ||
                 (null === $this->timeZone && null === $dateTimeWithTimeZone->getTimeZone())
             );
     }
 
     /**
      * Tells whether two DateTimeWithTimeZone represents the same timestamp.
-     *
-     * @param ValueObjectInterface $dateTimeWithTimeZone
-     *
-     * @return bool
      *
      * @throws Exception
      *
@@ -152,8 +126,6 @@ class DateTimeWithTimeZone implements ValueObjectInterface
 
     /**
      * Returns datetime from current DateTimeWithTimeZone.
-     *
-     * @return DateTime
      */
     public function getDateTime(): DateTime
     {
@@ -162,8 +134,6 @@ class DateTimeWithTimeZone implements ValueObjectInterface
 
     /**
      * Returns timezone from current DateTimeWithTimeZone.
-     *
-     * @return TimeZone|null
      */
     public function getTimeZone(): ?TimeZone
     {
@@ -176,8 +146,6 @@ class DateTimeWithTimeZone implements ValueObjectInterface
 
     /**
      * Returns a native PHP DateTime version of the current DateTimeWithTimeZone.
-     *
-     * @return BaseDateTime
      *
      * @throws Exception
      */
@@ -205,8 +173,6 @@ class DateTimeWithTimeZone implements ValueObjectInterface
 
     /**
      * Returns DateTime as string in format "Y-n-j G:i:s e".
-     *
-     * @return string
      *
      * @throws Exception
      */

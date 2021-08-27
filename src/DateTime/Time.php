@@ -15,41 +15,32 @@ class Time implements ValueObjectInterface
 {
     /**
      * Hour ValueObject.
-     *
-     * @var Hour
      */
-    protected $hour;
+    protected Hour $hour;
 
     /**
      * Minute ValueObject.
-     *
-     * @var Minute
      */
-    protected $minute;
+    protected Minute $minute;
 
     /**
      * Second ValueObject.
-     *
-     * @var Second
      */
-    protected $second;
+    protected Second $second;
 
     /**
      * Returns a nee Time object from native int hour, minute and second.
      *
-     * @return Time|static
-     *
-     * @throws Exception
      * @throws Exception
      */
-    public static function fromNative(): ValueObjectInterface
+    public static function fromNative(): static
     {
         $args = func_get_args();
 
         if (!isset($args[1])) {
-            $dateTime = new DateTime('@'.strtotime($args[0]));
+            $dateTime = new DateTime('@' . strtotime($args[0]));
 
-            return self::fromNativeDateTime($dateTime);
+            return static::fromNativeDateTime($dateTime);
         }
 
         $hour = new Hour($args[0]);
@@ -62,17 +53,13 @@ class Time implements ValueObjectInterface
     /**
      * Returns a new Time from a native PHP DateTime.
      *
-     * @param DateTime $time
-     *
-     * @return Time
-     *
      * @throws Exception
      */
-    public static function fromNativeDateTime(DateTime $time): self
+    public static function fromNativeDateTime(DateTime $time): static
     {
-        $hour = (int) $time->format('G');
-        $minute = (int) $time->format('i');
-        $second = (int) $time->format('s');
+        $hour = (int)$time->format('G');
+        $minute = (int)$time->format('i');
+        $second = (int)$time->format('s');
 
         return static::fromNative($hour, $minute, $second);
     }
@@ -80,11 +67,9 @@ class Time implements ValueObjectInterface
     /**
      * Return native value.
      *
-     * @return DateTime
-     *
      * @throws Exception
      */
-    public function toNative()
+    public function toNative(): DateTime
     {
         return $this->toNativeDateTime();
     }
@@ -92,21 +77,17 @@ class Time implements ValueObjectInterface
     /**
      * Returns current Time ValueObject.
      *
-     * @return Time
-     *
      * @throws Exception
      */
-    public static function now(): self
+    public static function now(): static
     {
         return new static(Hour::now(), Minute::now(), Second::now());
     }
 
     /**
      * Return zero Time ValueObject.
-     *
-     * @return Time
      */
-    public static function zero(): self
+    public static function zero(): static
     {
         return new static(new Hour(0), new Minute(0), new Second(0));
     }
@@ -114,9 +95,6 @@ class Time implements ValueObjectInterface
     /**
      * Returns a new Time objects.
      *
-     * @param Hour   $hour
-     * @param Minute $minute
-     * @param Second $second
      */
     public function __construct(Hour $hour, Minute $minute, Second $second)
     {
@@ -128,10 +106,6 @@ class Time implements ValueObjectInterface
     /**
      * Tells whether two Time are equal by comparing their values.
      *
-     * @param ValueObjectInterface $time
-     *
-     * @return bool
-     *
      * @psalm-suppress UndefinedInterfaceMethod
      */
     public function sameValueAs(ValueObjectInterface $time): bool
@@ -140,13 +114,13 @@ class Time implements ValueObjectInterface
             return false;
         }
 
-        return $this->getHour()->sameValueAs($time->getHour()) && $this->getMinute()->sameValueAs($time->getMinute()) && $this->getSecond()->sameValueAs($time->getSecond());
+        return $this->getHour()->sameValueAs($time->getHour()) && $this->getMinute()->sameValueAs(
+                $time->getMinute()
+            ) && $this->getSecond()->sameValueAs($time->getSecond());
     }
 
     /**
      * Get Hour ValueObject.
-     *
-     * @return Hour
      */
     public function getHour(): Hour
     {
@@ -155,8 +129,6 @@ class Time implements ValueObjectInterface
 
     /**
      * Get Minute ValueObject.
-     *
-     * @return Minute
      */
     public function getMinute(): Minute
     {
@@ -165,8 +137,6 @@ class Time implements ValueObjectInterface
 
     /**
      * Get Second ValueObject.
-     *
-     * @return Second
      */
     public function getSecond(): Second
     {
@@ -176,8 +146,6 @@ class Time implements ValueObjectInterface
     /**
      * Returns a native PHP DateTime version of the current Time.
      * Date is set to current.
-     *
-     * @return DateTime
      *
      * @throws Exception
      */
@@ -195,8 +163,6 @@ class Time implements ValueObjectInterface
 
     /**
      * Returns time as string in format G:i:s.
-     *
-     * @return string
      *
      * @throws Exception
      */

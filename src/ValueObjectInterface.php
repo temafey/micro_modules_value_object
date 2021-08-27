@@ -11,10 +11,8 @@ interface ValueObjectInterface
 {
     /**
      * Returns a object taking PHP native value(s) as argument(s).
-     *
-     * @return ValueObjectInterface
      */
-    public static function fromNative(): self;
+    public static function fromNative(): static;
 
     /**
      * Return native value.
@@ -25,17 +23,11 @@ interface ValueObjectInterface
 
     /**
      * Compare two ValueObjectInterface and tells whether they can be considered equal.
-     *
-     * @param ValueObjectInterface $valueObject
-     *
-     * @return bool
      */
     public function sameValueAs(self $valueObject): bool;
 
     /**
      * Returns a string representation of the object.
-     *
-     * @return string
      */
     public function __toString(): string;
 }

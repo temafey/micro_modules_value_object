@@ -22,17 +22,13 @@ class Collection implements ValueObjectInterface
 {
     /**
      * SplFixedArray object of values.
-     *
-     * @var SplFixedArray
      */
-    protected $items;
+    protected SplFixedArray $items;
 
     /**
      * Returns a new Collection object.
-     *
-     * @return Collection|static
      */
-    public static function fromNative(): ValueObjectInterface
+    public static function fromNative(): static
     {
         $array = func_get_arg(0);
         $items = [];
@@ -53,12 +49,8 @@ class Collection implements ValueObjectInterface
 
     /**
      * Make and return ValueObject from native value.
-     *
-     * @param mixed $item
-     *
-     * @return ValueObjectInterface
      */
-    protected static function makeValueObject($item): ValueObjectInterface
+    protected static function makeValueObject(mixed $item): ValueObjectInterface
     {
         if ($item instanceof ValueObjectInterface) {
             return $item;
@@ -75,7 +67,7 @@ class Collection implements ValueObjectInterface
         } elseif (null === $item) {
             $item = new NullValue();
         } else {
-            $item = StringLiteral::fromNative((string) $item);
+            $item = StringLiteral::fromNative((string)$item);
         }
 
         return $item;
@@ -83,8 +75,6 @@ class Collection implements ValueObjectInterface
 
     /**
      * Collection constructor.
-     *
-     * @param SplFixedArray $items
      */
     public function __construct(SplFixedArray $items)
     {
@@ -92,7 +82,12 @@ class Collection implements ValueObjectInterface
             if (false === $item instanceof ValueObjectInterface) {
                 $type = is_object($item) ? get_class($item) : gettype($item);
 
-                throw new InvalidArgumentException(sprintf('Passed SplFixedArray object must contains "ValueObjectInterface" objects only. "%s" given.', $type));
+                throw new InvalidArgumentException(
+                    sprintf(
+                        'Passed SplFixedArray object must contains "ValueObjectInterface" objects only. "%s" given.',
+                        $type
+                    )
+                );
             }
         }
 
@@ -101,10 +96,6 @@ class Collection implements ValueObjectInterface
 
     /**
      * Tells whether two Collection are equal by comparing their size and items (item order matters).
-     *
-     * @param ValueObjectInterface $collection
-     *
-     * @return bool
      *
      * @psalm-suppress UndefinedInterfaceMethod
      */
@@ -130,8 +121,6 @@ class Collection implements ValueObjectInterface
 
     /**
      * Returns the number of objects in the collection.
-     *
-     * @return Natural
      */
     public function count(): Natural
     {
@@ -140,10 +129,6 @@ class Collection implements ValueObjectInterface
 
     /**
      * Tells whether the Collection contains an object.
-     *
-     * @param ValueObjectInterface $object
-     *
-     * @return bool
      */
     public function contains(ValueObjectInterface $object): bool
     {
@@ -158,20 +143,14 @@ class Collection implements ValueObjectInterface
 
     /**
      * Return native value.
-     *
-     * @return mixed[]
      */
-    public function toNative()
+    public function toNative(): array
     {
         return $this->toArray();
     }
 
     /**
      * Returns a native array representation of the Collection.
-     *
-     * @param bool $native
-     *
-     * @return mixed[]
      *
      * @SuppressWarnings(PHPMD)
      */
@@ -194,8 +173,6 @@ class Collection implements ValueObjectInterface
 
     /**
      * Returns a native string representation of the Collection object.
-     *
-     * @return string
      */
     public function __toString(): string
     {
@@ -204,10 +181,6 @@ class Collection implements ValueObjectInterface
 
     /**
      * Validate is associated array.
-     *
-     * @param iterable $array
-     *
-     * @return bool
      */
     protected static function isAssocArray(iterable $array): bool
     {

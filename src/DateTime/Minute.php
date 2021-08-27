@@ -21,10 +21,8 @@ class Minute extends Natural
 
     /**
      * Returns a new Minute from native int value.
-     *
-     * @return Minute|static
      */
-    public static function fromNative(): ValueObjectInterface
+    public static function fromNative(): static
     {
         $value = func_get_arg(0);
 
@@ -34,7 +32,6 @@ class Minute extends Natural
     /**
      * Returns a new Minute object.
      *
-     * @param int $value
      */
     public function __construct(int $value)
     {
@@ -53,8 +50,6 @@ class Minute extends Natural
 
     /**
      * Returns the current minute.
-     *
-     * @return Minute
      *
      * @throws Exception
      */

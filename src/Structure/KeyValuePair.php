@@ -15,32 +15,28 @@ class KeyValuePair implements ValueObjectInterface
 {
     /**
      * Key ValueObjectInterface.
-     *
-     * @var ValueObjectInterface
      */
-    protected $key;
+    protected ValueObjectInterface $key;
 
     /**
      * Value ValueObjectInterface.
-     *
-     * @var ValueObjectInterface
      */
-    protected $value;
+    protected ValueObjectInterface $value;
 
     /**
      * Returns a KeyValuePair from native PHP arguments evaluated as strings.
-     *
-     * @return self
      */
-    public static function fromNative(): ValueObjectInterface
+    public static function fromNative(): static
     {
         $args = func_get_args();
 
         if (2 !== count($args)) {
-            throw new BadMethodCallException('This methods expects two arguments. One for the key and one for the value.');
+            throw new BadMethodCallException(
+                'This methods expects two arguments. One for the key and one for the value.'
+            );
         }
-        $keyString = (string) $args[0];
-        $valueString = (string) $args[1];
+        $keyString = (string)$args[0];
+        $valueString = (string)$args[1];
         $key = new StringLiteral($keyString);
         $value = new StringLiteral($valueString);
 
@@ -49,9 +45,6 @@ class KeyValuePair implements ValueObjectInterface
 
     /**
      * Returns a KeyValuePair.
-     *
-     * @param ValueObjectInterface $key
-     * @param ValueObjectInterface $value
      */
     public function __construct(ValueObjectInterface $key, ValueObjectInterface $value)
     {
@@ -61,20 +54,14 @@ class KeyValuePair implements ValueObjectInterface
 
     /**
      * Return native value.
-     *
-     * @return string
      */
-    public function toNative()
+    public function toNative(): string
     {
         return $this->__toString();
     }
 
     /**
      * Tells whether two KeyValuePair are equal.
-     *
-     * @param ValueObjectInterface $keyValuePair
-     *
-     * @return bool
      *
      * @psalm-suppress UndefinedInterfaceMethod
      */
@@ -84,13 +71,13 @@ class KeyValuePair implements ValueObjectInterface
             return false;
         }
 
-        return $this->getKey()->sameValueAs($keyValuePair->getKey()) && $this->getValue()->sameValueAs($keyValuePair->getValue());
+        return $this->getKey()->sameValueAs($keyValuePair->getKey()) && $this->getValue()->sameValueAs(
+                $keyValuePair->getValue()
+            );
     }
 
     /**
      * Returns key.
-     *
-     * @return ValueObjectInterface
      */
     public function getKey(): ValueObjectInterface
     {
@@ -99,8 +86,6 @@ class KeyValuePair implements ValueObjectInterface
 
     /**
      * Returns value.
-     *
-     * @return ValueObjectInterface
      */
     public function getValue(): ValueObjectInterface
     {
@@ -109,8 +94,6 @@ class KeyValuePair implements ValueObjectInterface
 
     /**
      * Returns a string representation of the KeyValuePair in format "$key => $value".
-     *
-     * @return string
      */
     public function __toString(): string
     {
@@ -120,10 +103,10 @@ class KeyValuePair implements ValueObjectInterface
     /**
      * Return array of key and value.
      *
-     * @return string[]
+     * @return array<string>
      */
     public function toArray(): array
     {
-        return[$this->getKey()->toNative(), $this->getValue()->toNative()];
+        return [$this->getKey()->toNative(), $this->getValue()->toNative()];
     }
 }

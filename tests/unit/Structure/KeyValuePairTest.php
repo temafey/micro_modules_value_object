@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace MicroModule\ValueObject\Tests\Unit\Structure;
 
+use BadMethodCallException;
 use MicroModule\ValueObject\StringLiteral\StringLiteral;
 use MicroModule\ValueObject\Structure\KeyValuePair;
 use MicroModule\ValueObject\Tests\Unit\TestCase;
@@ -11,8 +12,7 @@ use MicroModule\ValueObject\ValueObjectInterface;
 
 class KeyValuePairTest extends TestCase
 {
-    /** @var KeyValuePair */
-    protected $keyValuePair;
+    protected KeyValuePair $keyValuePair;
 
     protected function setUp(): void
     {
@@ -25,9 +25,9 @@ class KeyValuePairTest extends TestCase
         $this->assertTrue($this->keyValuePair->sameValueAs($fromNativePair));
     }
 
-    /** @expectedException \BadMethodCallException */
     public function testInvalidFromNative(): void
     {
+        $this->expectException(BadMethodCallException::class);
         KeyValuePair::fromNative('key', 'value', 'invalid');
     }
 
@@ -56,6 +56,6 @@ class KeyValuePairTest extends TestCase
 
     public function testToString(): void
     {
-        $this->assertEquals('key => value', $this->keyValuePair->__toString());
+        $this->assertEquals(serialize(['key', 'value']), $this->keyValuePair->__toString());
     }
 }

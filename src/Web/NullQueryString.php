@@ -14,6 +14,6 @@ class NullQueryString extends QueryString implements QueryStringInterface
      */
     public function __construct()
     {
-        $this->value = '';
+        parent::__construct('');
     }
 }

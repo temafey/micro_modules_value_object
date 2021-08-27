@@ -16,39 +16,30 @@ class Date implements ValueObjectInterface
 {
     /**
      * Year ValueObject.
-     *
-     * @var Year
      */
-    protected $year;
+    protected Year $year;
 
     /**
      * Month ValueObject.
-     *
-     * @var Month
      */
-    protected $month;
+    protected Month $month;
 
     /**
      * MonthDay ValueObject.
-     *
-     * @var MonthDay
      */
-    protected $day;
+    protected MonthDay $day;
 
     /**
      * Returns a new Date from native year, month and day values.
      *
-     * @return Date|static
-     *
-     * @throws InvalidDateException
-     * @throws Exception
+     * @throws InvalidDateException|Exception
      */
-    public static function fromNative(): ValueObjectInterface
+    public static function fromNative(): static
     {
         $args = func_get_args();
 
         if (!isset($args[1])) {
-            $dateTime = new DateTime('@'.strtotime($args[0]));
+            $dateTime = new DateTime('@' . strtotime($args[0]));
 
             return self::fromNativeDateTime($dateTime);
         }
@@ -56,6 +47,7 @@ class Date implements ValueObjectInterface
         $year = new Year($args[0]);
         $month = Month::fromNative($args[1]);
         $day = new MonthDay($args[2]);
+
         /** @psalm-suppress ArgumentTypeCoercion */
         return new static($year, $month, $day);
     }
@@ -63,11 +55,9 @@ class Date implements ValueObjectInterface
     /**
      * Return native value.
      *
-     * @return DateTime
-     *
      * @throws Exception
      */
-    public function toNative()
+    public function toNative(): DateTime
     {
         return $this->toNativeDateTime();
     }
@@ -75,17 +65,13 @@ class Date implements ValueObjectInterface
     /**
      * Returns a new Date from a native PHP DateTime.
      *
-     * @param DateTime $date
-     *
-     * @return Date|static
-     *
      * @throws InvalidDateException
      */
-    public static function fromNativeDateTime(DateTime $date): self
+    public static function fromNativeDateTime(DateTime $date): static
     {
-        $year = (int) $date->format('Y');
+        $year = (int)$date->format('Y');
         $month = Month::fromNativeDateTime($date);
-        $day = (int) $date->format('d');
+        $day = (int)$date->format('d');
 
         return new static(new Year($year), $month, new MonthDay($day));
     }
@@ -93,14 +79,9 @@ class Date implements ValueObjectInterface
     /**
      * Returns current Date.
      *
-     * @return Date|static
-     *
-     * @throws InvalidDateException
-     * @throws Exception
-     * @throws Exception
-     * @throws Exception
+     * @throws InvalidDateException|Exception
      */
-    public static function now(): self
+    public static function now(): static
     {
         return new static(Year::now(), Month::now(), MonthDay::now());
     }
@@ -108,18 +89,17 @@ class Date implements ValueObjectInterface
     /**
      * Create a new Date.
      *
-     * @param Year     $year
-     * @param Month    $month
-     * @param MonthDay $day
-     *
      * @throws InvalidDateException
      */
     public function __construct(Year $year, Month $month, MonthDay $day)
     {
-        DateTime::createFromFormat('Y-F-j', sprintf('%d-%s-%d', $year->toNative(), $month->__toString(), $day->toNative()));
+        $dateTime = DateTime::createFromFormat(
+            'Y-F-j',
+            sprintf('%d-%s-%d', $year->toNative(), $month->__toString(), $day->toNative())
+        );
         $nativeDateErrors = DateTime::getLastErrors();
 
-        if ($nativeDateErrors['warning_count'] > 0 || $nativeDateErrors['error_count'] > 0) {
+        if (false !== $dateTime || $nativeDateErrors['warning_count'] > 0 || $nativeDateErrors['error_count'] > 0) {
             throw new InvalidDateException($year->toNative(), $month->toNative(), $day->toNative());
         }
 
@@ -131,10 +111,6 @@ class Date implements ValueObjectInterface
     /**
      * Tells whether two Date are equal by comparing their values.
      *
-     * @param ValueObjectInterface $date
-     *
-     * @return bool
-     *
      * @psalm-suppress UndefinedInterfaceMethod
      */
     public function sameValueAs(ValueObjectInterface $date): bool
@@ -144,8 +120,8 @@ class Date implements ValueObjectInterface
         }
 
         return $this->getYear()->sameValueAs($date->getYear()) &&
-               $this->getMonth()->sameValueAs($date->getMonth()) &&
-               $this->getDay()->sameValueAs($date->getDay());
+            $this->getMonth()->sameValueAs($date->getMonth()) &&
+            $this->getDay()->sameValueAs($date->getDay());
     }
 
     /**
@@ -181,8 +157,6 @@ class Date implements ValueObjectInterface
     /**
      * Returns a native PHP DateTime version of the current Date.
      *
-     * @return DateTime
-     *
      * @throws Exception
      */
     public function toNativeDateTime(): DateTime
@@ -200,8 +174,6 @@ class Date implements ValueObjectInterface
 
     /**
      * Returns date as string in format Y-n-j.
-     *
-     * @return string
      *
      * @throws Exception
      */

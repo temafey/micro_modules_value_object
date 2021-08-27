@@ -16,8 +16,6 @@ class Latitude extends Real
     /**
      * Returns a new Latitude object.
      *
-     * @param float $value
-     *
      * @throws InvalidNativeArgumentException
      */
     public function __construct(float $value)
@@ -26,6 +24,6 @@ class Latitude extends Real
         $coordinate = new BaseCoordinate([$value, 0]);
         $latitude = $coordinate->getLatitude();
 
-        $this->value = $latitude;
+        parent::__construct($latitude);
     }
 }

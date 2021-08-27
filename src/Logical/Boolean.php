@@ -13,17 +13,13 @@ class Boolean implements ValueObjectInterface
 {
     /**
      * Bool value.
-     *
-     * @var bool
      */
-    protected $value;
+    protected bool $value;
 
     /**
      * Returns a Boolean object given a PHP native string as parameter.
-     *
-     * @return ValueObjectInterface|static
      */
-    public static function fromNative(): ValueObjectInterface
+    public static function fromNative(): static
     {
         $value = func_get_arg(0);
 
@@ -32,8 +28,6 @@ class Boolean implements ValueObjectInterface
 
     /**
      * Boolean constructor.
-     *
-     * @param bool $value
      */
     public function __construct(bool $value)
     {
@@ -42,20 +36,14 @@ class Boolean implements ValueObjectInterface
 
     /**
      * Returns the value of the bool.
-     *
-     * @return bool
      */
-    public function toNative()
+    public function toNative(): bool
     {
         return $this->value;
     }
 
     /**
      * Tells whether two boolean are equal by comparing their values.
-     *
-     * @param ValueObjectInterface $bool
-     *
-     * @return bool
      */
     public function sameValueAs(ValueObjectInterface $bool): bool
     {
@@ -68,8 +56,6 @@ class Boolean implements ValueObjectInterface
 
     /**
      * Returns the string value itself.
-     *
-     * @return string
      */
     public function __toString(): string
     {

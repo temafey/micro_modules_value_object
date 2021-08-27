@@ -14,7 +14,7 @@ class CountryCodeName
     /**
      * Country codes.
      *
-     * @var string[]
+     * @var array<string,string>
      */
     private const NAMES = [
         'AF' => 'Afghanistan',
@@ -265,10 +265,6 @@ class CountryCodeName
 
     /**
      * Returns country name.
-     *
-     * @param CountryCode $code
-     *
-     * @return StringLiteral
      */
     public static function getName(CountryCode $code): StringLiteral
     {

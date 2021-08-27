@@ -23,6 +23,6 @@ class FragmentIdentifier extends StringLiteral implements FragmentIdentifierInte
             throw new InvalidNativeArgumentException($value, ['string (valid fragment identifier)']);
         }
 
-        $this->value = $value;
+        parent::__construct($value);
     }
 }

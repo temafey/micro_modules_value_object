@@ -15,31 +15,23 @@ class Name implements ValueObjectInterface
 {
     /**
      * First name ValueObject.
-     *
-     * @var StringLiteral
      */
-    private $firstName;
+    private StringLiteral $firstName;
 
     /**
      * Middle name ValueObject.
-     *
-     * @var StringLiteral
      */
-    private $middleName;
+    private StringLiteral $middleName;
 
     /**
      * Last name ValueObject.
-     *
-     * @var StringLiteral
      */
-    private $lastName;
+    private StringLiteral $lastName;
 
     /**
      * Returns a Name objects form PHP native values.
-     *
-     * @return Name
      */
-    public static function fromNative(): ValueObjectInterface
+    public static function fromNative(): static
     {
         $args = func_get_args();
 
@@ -52,10 +44,6 @@ class Name implements ValueObjectInterface
 
     /**
      * Returns a Name object.
-     *
-     * @param StringLiteral $firstName
-     * @param StringLiteral $middleName
-     * @param StringLiteral $lastName
      */
     public function __construct(StringLiteral $firstName, StringLiteral $middleName, StringLiteral $lastName)
     {
@@ -66,18 +54,14 @@ class Name implements ValueObjectInterface
 
     /**
      * Return native value.
-     *
-     * @return string
      */
-    public function toNative()
+    public function toNative(): string
     {
         return $this->__toString();
     }
 
     /**
      * Returns the first name.
-     *
-     * @return StringLiteral
      */
     public function getFirstName(): StringLiteral
     {
@@ -86,8 +70,6 @@ class Name implements ValueObjectInterface
 
     /**
      * Returns the middle name.
-     *
-     * @return StringLiteral
      */
     public function getMiddleName(): StringLiteral
     {
@@ -96,8 +78,6 @@ class Name implements ValueObjectInterface
 
     /**
      * Returns the last name.
-     *
-     * @return StringLiteral
      */
     public function getLastName(): StringLiteral
     {
@@ -106,14 +86,12 @@ class Name implements ValueObjectInterface
 
     /**
      * Returns the full name.
-     *
-     * @return StringLiteral
      */
     public function getFullName(): StringLiteral
     {
-        $fullNameString = $this->firstName.
-            ($this->middleName->isEmpty() ? '' : ' '.$this->middleName).
-            ($this->lastName->isEmpty() ? '' : ' '.$this->lastName);
+        $fullNameString = $this->firstName .
+            ($this->middleName->isEmpty() ? '' : ' ' . $this->middleName) .
+            ($this->lastName->isEmpty() ? '' : ' ' . $this->lastName);
 
         return new StringLiteral($fullNameString);
     }
@@ -121,13 +99,7 @@ class Name implements ValueObjectInterface
     /**
      * Tells whether two names are equal by comparing their values.
      *
-     * @param ValueObjectInterface $name
-     *
-     * @return bool
-     *
-     * @throws Exception
-     *
-     * @psalm-suppress UndefinedInterfaceMethod
+     * @psalm-suppress UndefinedInterfaceMethod|Exception
      */
     public function sameValueAs(ValueObjectInterface $name): bool
     {
@@ -140,11 +112,9 @@ class Name implements ValueObjectInterface
 
     /**
      * Returns the full name.
-     *
-     * @return string
      */
     public function __toString(): string
     {
-        return (string) $this->getFullName();
+        return (string)$this->getFullName();
     }
 }

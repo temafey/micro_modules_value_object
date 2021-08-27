@@ -14,17 +14,13 @@ class Country implements ValueObjectInterface
 {
     /**
      * CountryCode ValueObject.
-     *
-     * @var CountryCode
      */
-    protected $code;
+    protected CountryCode $code;
 
     /**
      * Returns a new Country object given a native PHP string country code.
-     *
-     * @return self
      */
-    public static function fromNative(): ValueObjectInterface
+    public static function fromNative(): static
     {
         $codeString = func_get_arg(0);
         $code = CountryCode::byName($codeString);
@@ -34,8 +30,6 @@ class Country implements ValueObjectInterface
 
     /**
      * Returns a new Country object.
-     *
-     * @param CountryCode $code
      */
     public function __construct(CountryCode $code)
     {
@@ -44,20 +38,14 @@ class Country implements ValueObjectInterface
 
     /**
      * Return native value.
-     *
-     * @return string
      */
-    public function toNative()
+    public function toNative(): string
     {
         return $this->__toString();
     }
 
     /**
      * Tells whether two Country are equal.
-     *
-     * @param ValueObjectInterface $country
-     *
-     * @return bool
      *
      * @psalm-suppress UndefinedInterfaceMethod
      */
@@ -72,8 +60,6 @@ class Country implements ValueObjectInterface
 
     /**
      * Returns country code.
-     *
-     * @return CountryCode
      */
     public function getCode(): CountryCode
     {
@@ -82,8 +68,6 @@ class Country implements ValueObjectInterface
 
     /**
      * Returns country name.
-     *
-     * @return StringLiteral
      */
     public function getName(): StringLiteral
     {
@@ -94,8 +78,6 @@ class Country implements ValueObjectInterface
 
     /**
      * Returns country name as native string.
-     *
-     * @return string
      */
     public function __toString(): string
     {

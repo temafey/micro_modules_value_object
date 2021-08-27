@@ -10,15 +10,15 @@ use MicroModule\ValueObject\StringLiteral\StringLiteral;
 use MicroModule\ValueObject\Structure\Collection;
 use MicroModule\ValueObject\Tests\Unit\TestCase;
 use MicroModule\ValueObject\ValueObjectInterface;
+use SplFixedArray;
 
 class CollectionTest extends TestCase
 {
-    /** @var Collection */
-    protected $collection;
+    protected Collection $collection;
 
     protected function setUp(): void
     {
-        $array = new \SplFixedArray(3);
+        $array = new SplFixedArray(3);
         $array->offsetSet(0, new StringLiteral('one'));
         $array->offsetSet(1, new StringLiteral('two'));
         $array->offsetSet(2, new Integer(3));
@@ -26,34 +26,34 @@ class CollectionTest extends TestCase
         $this->collection = new Collection($array);
     }
 
-    /** @expectedException \InvalidArgumentException */
     public function testInvalidArgument(): void
     {
-        $array = \SplFixedArray::fromArray(['one', 'two', 'three']);
+        $this->expectException(\InvalidArgumentException::class);
+        $array = SplFixedArray::fromArray(['one', 'two', 'three']);
 
         new Collection($array);
     }
 
     public function testFromNative(): void
     {
-        $array = \SplFixedArray::fromArray([
-            'one',
-            'two',
-            [1, 2],
-        ]);
+        $array = SplFixedArray::fromArray([
+                                              'one',
+                                              'two',
+                                              ['1', '2'],
+                                          ]);
         $fromNativeCollection = Collection::fromNative($array);
 
         $innerArray = new Collection(
-            \SplFixedArray::fromArray([
-                    new StringLiteral('1'),
-                    new StringLiteral('2'),
-            ])
+            SplFixedArray::fromArray([
+                                         new StringLiteral('1'),
+                                         new StringLiteral('2'),
+                                     ])
         );
-        $array = \SplFixedArray::fromArray([
-            new StringLiteral('one'),
-            new StringLiteral('two'),
-            $innerArray,
-        ]);
+        $array = SplFixedArray::fromArray([
+                                              new StringLiteral('one'),
+                                              new StringLiteral('two'),
+                                              $innerArray,
+                                          ]);
         $constructedCollection = new Collection($array);
 
         $this->assertTrue($fromNativeCollection->sameValueAs($constructedCollection));
@@ -61,18 +61,18 @@ class CollectionTest extends TestCase
 
     public function testSameValueAs(): void
     {
-        $array = \SplFixedArray::fromArray([
-            new StringLiteral('one'),
-            new StringLiteral('two'),
-            new Integer(3),
-        ]);
+        $array = SplFixedArray::fromArray([
+                                              new StringLiteral('one'),
+                                              new StringLiteral('two'),
+                                              new Integer(3),
+                                          ]);
         $collection2 = new Collection($array);
 
-        $array = \SplFixedArray::fromArray([
-            'one',
-            'two',
-            [1, 2],
-        ]);
+        $array = SplFixedArray::fromArray([
+                                              'one',
+                                              'two',
+                                              [1, 2],
+                                          ]);
         $collection3 = Collection::fromNative($array);
 
         $this->assertTrue($this->collection->sameValueAs($collection2));
@@ -107,11 +107,11 @@ class CollectionTest extends TestCase
             new Integer(3),
         ];
 
-        $this->assertEquals($array, $this->collection->toArray());
+        $this->assertEquals($array, $this->collection->toArray(false));
     }
 
     public function testToString(): void
     {
-        $this->assertEquals('MicroModule\ValueObject\Structure\Collection(3)', $this->collection->__toString());
+        $this->assertEquals(serialize(['one', 'two', 3]), $this->collection->__toString());
     }
 }

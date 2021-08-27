@@ -12,23 +12,14 @@ class Util
 {
     /**
      * Tells whether two objects are of the same class.
-     *
-     * @param object $objectA
-     * @param object $objectB
-     *
-     * @return bool
      */
-    public static function classEquals($objectA, $objectB): bool
+    public static function classEquals(object $objectA, object $objectB): bool
     {
         return get_class($objectA) === get_class($objectB);
     }
 
     /**
      * Returns full namespaced class as string.
-     *
-     * @param object $object
-     *
-     * @return string
      */
     public static function getClassAsString(object $object): string
     {

@@ -13,10 +13,6 @@ abstract class Domain extends StringLiteral
 {
     /**
      * Returns a Hostname or a IPAddress object depending on passed value.
-     *
-     * @param string $domain
-     *
-     * @return Domain
      */
     public static function specifyType(string $domain): self
     {

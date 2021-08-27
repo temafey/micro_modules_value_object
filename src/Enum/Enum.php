@@ -17,30 +17,22 @@ abstract class Enum extends BaseEnum implements ValueObjectInterface
 
     /**
      * Returns a new Enum object from passed value matching argument.
-     *
-     * @return static
      */
-    public static function fromNative(): ValueObjectInterface
+    public static function fromNative(): static
     {
         return static::get(func_get_arg(0));
     }
 
     /**
      * Returns the PHP native value of the enum.
-     *
-     * @return mixed
      */
-    public function toNative()
+    public function toNative(): mixed
     {
         return $this->getValue();
     }
 
     /**
      * Tells whether two Enum objects are sameValueAs by comparing their values.
-     *
-     * @param ValueObjectInterface $enum
-     *
-     * @return bool
      */
     public function sameValueAs(ValueObjectInterface $enum): bool
     {
@@ -53,11 +45,9 @@ abstract class Enum extends BaseEnum implements ValueObjectInterface
 
     /**
      * Returns a native string representation of the Enum value.
-     *
-     * @return string
      */
     public function __toString(): string
     {
-        return (string) $this->toNative();
+        return (string)$this->toNative();
     }
 }

@@ -14,24 +14,18 @@ class Complex implements ValueObjectInterface, NumberInterface
 {
     /**
      * Real ValueObject.
-     *
-     * @var Real
      */
-    protected $real;
+    protected Real $real;
 
     /**
      * Real ValueObject.
-     *
-     * @var Real
      */
-    protected $im;
+    protected Real $im;
 
     /**
      * Returns a new Complex object from native PHP arguments.
-     *
-     * @return Complex|ValueObjectInterface
      */
-    public static function fromNative(): ValueObjectInterface
+    public static function fromNative(): static
     {
         $args = func_get_args();
 
@@ -41,19 +35,15 @@ class Complex implements ValueObjectInterface, NumberInterface
 
         $real = Real::fromNative($args[0]);
         $im = Real::fromNative($args[1]);
+
         /** @psalm-suppress ArgumentTypeCoercion */
         return new static($real, $im);
     }
 
     /**
      * Returns a Complex given polar coordinates.
-     *
-     * @param Real $modulus
-     * @param Real $argument
-     *
-     * @return Complex
      */
-    public static function fromPolar(Real $modulus, Real $argument): self
+    public static function fromPolar(Real $modulus, Real $argument): static
     {
         $realValue = $modulus->toNative() * cos($argument->toNative());
         $imValue = $modulus->toNative() * sin($argument->toNative());
@@ -65,9 +55,6 @@ class Complex implements ValueObjectInterface, NumberInterface
 
     /**
      * Returns a Complex object give its real and imaginary parts as parameters.
-     *
-     * @param Real $real
-     * @param Real $im
      */
     public function __construct(Real $real, Real $im)
     {
@@ -76,10 +63,6 @@ class Complex implements ValueObjectInterface, NumberInterface
     }
 
     /**
-     * @param ValueObjectInterface $complex
-     *
-     * @return bool
-     *
      * @psalm-suppress UndefinedInterfaceMethod
      */
     public function sameValueAs(ValueObjectInterface $complex): bool
@@ -89,15 +72,15 @@ class Complex implements ValueObjectInterface, NumberInterface
         }
 
         return $this->getReal()->sameValueAs($complex->getReal()) &&
-               $this->getIm()->sameValueAs($complex->getIm());
+            $this->getIm()->sameValueAs($complex->getIm());
     }
 
     /**
      * Returns the native value of the real and imaginary parts as an array.
      *
-     * @return float[]
+     * @return array<int,float>
      */
-    public function toNative()
+    public function toNative(): array
     {
         return [
             $this->getReal()->toNative(),
@@ -107,8 +90,6 @@ class Complex implements ValueObjectInterface, NumberInterface
 
     /**
      * Returns the real part of the complex number.
-     *
-     * @return Real
      */
     public function getReal(): Real
     {
@@ -117,8 +98,6 @@ class Complex implements ValueObjectInterface, NumberInterface
 
     /**
      * Returns the imaginary part of the complex number.
-     *
-     * @return Real
      */
     public function getIm(): Real
     {
@@ -127,8 +106,6 @@ class Complex implements ValueObjectInterface, NumberInterface
 
     /**
      * Returns the modulus (or absolute value or magnitude) of the Complex number.
-     *
-     * @return Real
      */
     public function getModulus(): Real
     {
@@ -141,8 +118,6 @@ class Complex implements ValueObjectInterface, NumberInterface
 
     /**
      * Returns the argument (or phase) of the Complex number.
-     *
-     * @return Real
      */
     public function getArgument(): Real
     {
@@ -155,8 +130,6 @@ class Complex implements ValueObjectInterface, NumberInterface
 
     /**
      * Returns a native string version of the Complex object in format "${real} +|- ${complex}i".
-     *
-     * @return string
      */
     public function __toString(): string
     {
@@ -164,8 +137,8 @@ class Complex implements ValueObjectInterface, NumberInterface
         $real = $this->getReal()->toNative();
         $im = $this->getIm()->toNative();
         $string = sprintf($format, $real, $im);
-        $string = preg_replace('/(\+|-)/', '$1 ', $string);
+        $string = preg_replace('/([+\-])/', '$1 ', $string);
 
-        return (string) $string;
+        return (string)$string;
     }
 }

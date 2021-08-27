@@ -25,6 +25,6 @@ class Hostname extends Domain
             throw new InvalidNativeArgumentException($value, ['string (valid hostname)']);
         }
 
-        $this->value = $value;
+        parent::__construct($value);
     }
 }

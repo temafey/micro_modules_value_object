@@ -16,7 +16,7 @@ fix-permission: ## fix permission for docker env
 
 .PHONY: build
 build: ## build environment and initialize composer and project dependencies
-	docker build --build-arg CI_SERVICE_NAME=$(CI_SERVICE_NAME) .docker/php7.3-dev/ -t gitlab.micro-moduletech.net:5001/micro-module/dev/shared/modules/package-$(CI_SERVICE_NAME)/php7.3-dev:$(CI_COMMIT_REF_SLUG)
+	docker build --build-arg CI_SERVICE_NAME=$(CI_SERVICE_NAME) .docker/php8.0-dev/ -t gitlab.micro-moduletech.net:5001/micro-module/dev/shared/modules/package-$(CI_SERVICE_NAME)/php8.0-dev:$(CI_COMMIT_REF_SLUG)
 	docker-compose build
 	docker-compose run --rm --no-deps php sh -lc 'composer install'
 
@@ -48,10 +48,15 @@ composer: ## Execute composer command
 phpunit: ## execute project unit tests
 	docker-compose run --rm php sh -lc  "./vendor/bin/phpunit $(conf)"
 
-.PHONY: style
-style: ## executes php analizers
+.PHONY: phpstan
+phpstan: ## phpstan - PHP Static Analysis Tool
 	docker-compose run --rm --no-deps php sh -lc './vendor/bin/phpstan analyse -l 6 -c phpstan.neon src tests'
+
+.PHONY: psalm
+psalm: ## psalm is a static analysis tool for finding errors in PHP applications
 	docker-compose run --rm --no-deps php sh -lc './vendor/bin/psalm --config=psalm.xml'
+
+style: phpstan psalm ## executes php analizers
 
 .PHONY: lint
 lint: ## checks syntax of PHP files

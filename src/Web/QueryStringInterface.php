@@ -12,7 +12,7 @@ use MicroModule\ValueObject\Structure\Dictionary;
 interface QueryStringInterface
 {
     /**
-     * @return Dictionary
+     * Returns Dictionary ValueObject
      */
     public function toDictionary(): Dictionary;
 }

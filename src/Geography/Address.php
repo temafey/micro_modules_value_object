@@ -15,62 +15,51 @@ class Address implements ValueObjectInterface
 {
     /**
      * Name of the addressee (natural person or company).
-     *
-     * @var StringLiteral
      */
-    protected $name;
+    protected StringLiteral $name;
 
     /**
      * Street ValueObject.
-     *
-     * @var Street
      */
-    protected $street;
+    protected Street $street;
 
     /**
      * District/City area.
-     *
-     * @var StringLiteral
      */
-    protected $district;
+    protected StringLiteral $district;
 
     /**
      * City/Town/Village.
-     *
-     * @var StringLiteral
      */
-    protected $city;
+    protected StringLiteral $city;
 
     /**
      * Region/County/State.
-     *
-     * @var StringLiteral
      */
-    protected $region;
+    protected StringLiteral $region;
 
     /**
      * Postal code/P.O. Box/ZIP code.
-     *
-     * @var StringLiteral
      */
-    protected $postalCode;
+    protected StringLiteral $postalCode;
 
     /**
-     * @var Country
+     * Country
      */
-    protected $country;
+    protected Country $country;
 
     /**
      * Returns a new Address from native PHP arguments.
      *
-     * @return self
      */
-    public static function fromNative(): ValueObjectInterface
+    public static function fromNative(): static
     {
         $args = func_get_args();
 
         if (8 !== count($args)) {
-            throw new BadMethodCallException('You must provide exactly 8 arguments: 1) addressee name, 2) street name, 3) street number, 4) district, 5) city, 6) region, 7) postal code, 8) country code.');
+            throw new BadMethodCallException(
+                'You must provide exactly 8 arguments: 1) addressee name, 2) street name, 3) street number, 4) district, 5) city, 6) region, 7) postal code, 8) country code.'
+            );
         }
 
         $name = new StringLiteral($args[0]);
@@ -86,17 +75,16 @@ class Address implements ValueObjectInterface
 
     /**
      * Returns a new Address object.
-     *
-     * @param StringLiteral $name
-     * @param Street        $street
-     * @param StringLiteral $district
-     * @param StringLiteral $city
-     * @param StringLiteral $region
-     * @param StringLiteral $postalCode
-     * @param Country       $country
      */
-    public function __construct(StringLiteral $name, Street $street, StringLiteral $district, StringLiteral $city, StringLiteral $region, StringLiteral $postalCode, Country $country)
-    {
+    public function __construct(
+        StringLiteral $name,
+        Street $street,
+        StringLiteral $district,
+        StringLiteral $city,
+        StringLiteral $region,
+        StringLiteral $postalCode,
+        Country $country
+    ) {
         $this->name = $name;
         $this->street = $street;
         $this->district = $district;
@@ -108,20 +96,14 @@ class Address implements ValueObjectInterface
 
     /**
      * Return native value.
-     *
-     * @return string
      */
-    public function toNative()
+    public function toNative(): string
     {
         return $this->__toString();
     }
 
     /**
      * Tells whether two Address are equal.
-     *
-     * @param ValueObjectInterface $address
-     *
-     * @return bool
      *
      * @psalm-suppress UndefinedInterfaceMethod
      */
@@ -132,19 +114,16 @@ class Address implements ValueObjectInterface
         }
 
         return $this->getName()->sameValueAs($address->getName()) &&
-               $this->getStreet()->sameValueAs($address->getStreet()) &&
-               $this->getDistrict()->sameValueAs($address->getDistrict()) &&
-               $this->getCity()->sameValueAs($address->getCity()) &&
-               $this->getRegion()->sameValueAs($address->getRegion()) &&
-               $this->getPostalCode()->sameValueAs($address->getPostalCode()) &&
-               $this->getCountry()->sameValueAs($address->getCountry())
-        ;
+            $this->getStreet()->sameValueAs($address->getStreet()) &&
+            $this->getDistrict()->sameValueAs($address->getDistrict()) &&
+            $this->getCity()->sameValueAs($address->getCity()) &&
+            $this->getRegion()->sameValueAs($address->getRegion()) &&
+            $this->getPostalCode()->sameValueAs($address->getPostalCode()) &&
+            $this->getCountry()->sameValueAs($address->getCountry());
     }
 
     /**
      * Returns addressee name.
-     *
-     * @return StringLiteral
      */
     public function getName(): StringLiteral
     {
@@ -153,8 +132,6 @@ class Address implements ValueObjectInterface
 
     /**
      * Returns street.
-     *
-     * @return Street
      */
     public function getStreet(): Street
     {
@@ -163,8 +140,6 @@ class Address implements ValueObjectInterface
 
     /**
      * Returns district.
-     *
-     * @return StringLiteral
      */
     public function getDistrict(): StringLiteral
     {
@@ -173,8 +148,6 @@ class Address implements ValueObjectInterface
 
     /**
      * Returns city.
-     *
-     * @return StringLiteral
      */
     public function getCity(): StringLiteral
     {
@@ -183,8 +156,6 @@ class Address implements ValueObjectInterface
 
     /**
      * Returns region.
-     *
-     * @return StringLiteral
      */
     public function getRegion(): StringLiteral
     {
@@ -193,8 +164,6 @@ class Address implements ValueObjectInterface
 
     /**
      * Returns postal code.
-     *
-     * @return StringLiteral
      */
     public function getPostalCode(): StringLiteral
     {
@@ -203,8 +172,6 @@ class Address implements ValueObjectInterface
 
     /**
      * Returns country.
-     *
-     * @return Country
      */
     public function getCountry(): Country
     {
@@ -213,8 +180,6 @@ class Address implements ValueObjectInterface
 
     /**
      * Returns a string representation of the Address in US standard format.
-     *
-     * @return string
      */
     public function __toString(): string
     {
@@ -225,7 +190,8 @@ class Address implements ValueObjectInterface
 %s
 ADDR;
 
-        return sprintf($format,
+        return sprintf(
+            $format,
             $this->getName()->__toString(),
             $this->getStreet()->__toString(),
             $this->getCity()->__toString(),

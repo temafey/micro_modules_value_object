@@ -7,6 +7,7 @@ namespace MicroModule\ValueObject\Web;
 use MicroModule\ValueObject\StringLiteral\StringLiteral;
 use MicroModule\ValueObject\ValueObjectInterface;
 use Exception;
+
 use function parse_url;
 
 /**
@@ -16,66 +17,48 @@ class Url implements ValueObjectInterface
 {
     /**
      * SchemeName ValueObject.
-     *
-     * @var SchemeName
      */
-    protected $scheme;
+    protected SchemeName $scheme;
 
     /**
      * User StringLiteral ValueObject.
-     *
-     * @var StringLiteral
      */
-    protected $user;
+    protected StringLiteral $user;
 
     /**
      * Pass StringLiteral ValueObject.
-     *
-     * @var StringLiteral
      */
-    protected $password;
+    protected StringLiteral $password;
 
     /**
      * Domain ValueObject.
-     *
-     * @var Domain
      */
-    protected $domain;
+    protected Domain $domain;
 
     /**
      * Path ValueObject.
-     *
-     * @var Path
      */
-    protected $path;
+    protected Path $path;
 
     /**
      * PortNumberInterface ValueObject.
-     *
-     * @var PortNumberInterface
      */
-    protected $port;
+    protected PortNumberInterface $port;
 
     /**
      * QueryString ValueObject.
-     *
-     * @var QueryString
      */
-    protected $queryString;
+    protected QueryString $queryString;
 
     /**
      * FragmentIdentifier ValueObject.
-     *
-     * @var FragmentIdentifier
      */
-    protected $fragmentIdentifier;
+    protected FragmentIdentifier $fragmentIdentifier;
 
     /**
      * Returns a new Url object from a native url string.
-     *
-     * @return Url
      */
-    public static function fromNative(): ValueObjectInterface
+    public static function fromNative(): static
     {
         $urlString = func_get_arg(0);
 
@@ -100,18 +83,17 @@ class Url implements ValueObjectInterface
 
     /**
      * Returns a new Url object.
-     *
-     * @param SchemeName          $scheme
-     * @param StringLiteral       $user
-     * @param StringLiteral       $password
-     * @param Domain              $domain
-     * @param PortNumberInterface $port
-     * @param Path                $path
-     * @param QueryString         $query
-     * @param FragmentIdentifier  $fragment
      */
-    public function __construct(SchemeName $scheme, StringLiteral $user, StringLiteral $password, Domain $domain, PortNumberInterface $port, Path $path, QueryString $query, FragmentIdentifier $fragment)
-    {
+    public function __construct(
+        SchemeName $scheme,
+        StringLiteral $user,
+        StringLiteral $password,
+        Domain $domain,
+        PortNumberInterface $port,
+        Path $path,
+        QueryString $query,
+        FragmentIdentifier $fragment
+    ) {
         $this->scheme = $scheme;
         $this->user = $user;
         $this->password = $password;
@@ -125,10 +107,6 @@ class Url implements ValueObjectInterface
     /**
      * Tells whether two Url are sameValueAs by comparing their components.
      *
-     * @param ValueObjectInterface $url
-     *
-     * @return bool
-     *
      * @throws Exception
      *
      * @psalm-suppress UndefinedInterfaceMethod
@@ -140,20 +118,17 @@ class Url implements ValueObjectInterface
         }
 
         return $this->getScheme()->sameValueAs($url->getScheme()) &&
-               $this->getUser()->sameValueAs($url->getUser()) &&
-               $this->getPassword()->sameValueAs($url->getPassword()) &&
-               $this->getDomain()->sameValueAs($url->getDomain()) &&
-               $this->getPath()->sameValueAs($url->getPath()) &&
-               $this->getPort()->sameValueAs($url->getPort()) &&
-               $this->getQueryString()->sameValueAs($url->getQueryString()) &&
-               $this->getFragmentIdentifier()->sameValueAs($url->getFragmentIdentifier())
-        ;
+            $this->getUser()->sameValueAs($url->getUser()) &&
+            $this->getPassword()->sameValueAs($url->getPassword()) &&
+            $this->getDomain()->sameValueAs($url->getDomain()) &&
+            $this->getPath()->sameValueAs($url->getPath()) &&
+            $this->getPort()->sameValueAs($url->getPort()) &&
+            $this->getQueryString()->sameValueAs($url->getQueryString()) &&
+            $this->getFragmentIdentifier()->sameValueAs($url->getFragmentIdentifier());
     }
 
     /**
      * Returns the domain of the Url.
-     *
-     * @return Domain
      */
     public function getDomain(): Domain
     {
@@ -162,8 +137,6 @@ class Url implements ValueObjectInterface
 
     /**
      * Returns the fragment identifier of the Url.
-     *
-     * @return FragmentIdentifier
      */
     public function getFragmentIdentifier(): FragmentIdentifier
     {
@@ -172,8 +145,6 @@ class Url implements ValueObjectInterface
 
     /**
      * Returns the password part of the Url.
-     *
-     * @return StringLiteral
      */
     public function getPassword(): StringLiteral
     {
@@ -182,8 +153,6 @@ class Url implements ValueObjectInterface
 
     /**
      * Returns the path of the Url.
-     *
-     * @return Path
      */
     public function getPath(): StringLiteral
     {
@@ -192,8 +161,6 @@ class Url implements ValueObjectInterface
 
     /**
      * Returns the port of the Url.
-     *
-     * @return PortNumberInterface
      */
     public function getPort(): PortNumberInterface
     {
@@ -202,8 +169,6 @@ class Url implements ValueObjectInterface
 
     /**
      * Returns the query string of the Url.
-     *
-     * @return QueryString
      */
     public function getQueryString(): QueryString
     {
@@ -212,8 +177,6 @@ class Url implements ValueObjectInterface
 
     /**
      * Returns the scheme of the Url.
-     *
-     * @return SchemeName
      */
     public function getScheme(): SchemeName
     {
@@ -222,8 +185,6 @@ class Url implements ValueObjectInterface
 
     /**
      * Returns the user part of the Url.
-     *
-     * @return StringLiteral
      */
     public function getUser(): StringLiteral
     {
@@ -232,18 +193,14 @@ class Url implements ValueObjectInterface
 
     /**
      * Return native value.
-     *
-     * @return string
      */
-    public function toNative()
+    public function toNative(): string
     {
         return $this->__toString();
     }
 
     /**
      * Returns a string representation of the url.
-     *
-     * @return string
      */
     public function __toString(): string
     {
@@ -263,7 +220,8 @@ class Url implements ValueObjectInterface
             $port = sprintf(':%d', $this->getPort()->toNative());
         }
 
-        return sprintf(' %s://%s%s%s%s%s%s',
+        return sprintf(
+            '%s://%s%s%s%s%s%s',
             $this->getScheme()->__toString(),
             $userPass,
             $this->getDomain()->__toString(),

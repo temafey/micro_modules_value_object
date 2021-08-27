@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace MicroModule\ValueObject\Tests\Unit\Number;
 
+use MicroModule\ValueObject\Exception\InvalidNativeArgumentException;
 use MicroModule\ValueObject\Number\Integer;
 use MicroModule\ValueObject\Number\Natural;
 use MicroModule\ValueObject\Number\Real;
 use MicroModule\ValueObject\Tests\Unit\TestCase;
 use MicroModule\ValueObject\ValueObjectInterface;
+use TypeError;
 
 class RealTest extends TestCase
 {
@@ -40,10 +42,16 @@ class RealTest extends TestCase
         $this->assertFalse($real1->sameValueAs($mock));
     }
 
-    /** @expectedException MicroModule\ValueObject\Exception\InvalidNativeArgumentException */
     public function testInvalidNativeArgument(): void
     {
+        $this->expectException(TypeError::class);
         new Real('invalid');
+    }
+    
+    public function testInavalidFromNativeArgument(): void
+    {
+        $this->expectException(InvalidNativeArgumentException::class);
+        Real::fromNative('invalid');
     }
 
     public function testToInteger(): void
@@ -67,6 +75,6 @@ class RealTest extends TestCase
     public function testToString(): void
     {
         $real = new Real(.7);
-        $this->assertEquals('.7', $real->__toString());
+        $this->assertEquals('0.7', $real->__toString());
     }
 }
