@@ -99,7 +99,11 @@ class Date implements ValueObjectInterface
         );
         $nativeDateErrors = DateTime::getLastErrors();
 
-        if (false !== $dateTime || $nativeDateErrors['warning_count'] > 0 || $nativeDateErrors['error_count'] > 0) {
+        if (
+            false === $dateTime
+            || 0 < $nativeDateErrors['warning_count']
+            || 0 < $nativeDateErrors['error_count']
+        ) {
             throw new InvalidDateException($year->toNative(), $month->toNative(), $day->toNative());
         }
 
