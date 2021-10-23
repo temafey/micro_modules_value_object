@@ -19,7 +19,7 @@
         "phpstan/phpstan": "^0.12",
         "phpstan/phpstan-mockery": "^0.12",
         "phpstan/phpstan-phpunit": "^0.12",
-        "phpunit/phpunit": "^8.2",
+        "phpunit/phpunit": "^9.5",
         "roave/security-advisories": "dev-master",
         "symplify/easy-coding-standard": "^9.4",
         "vimeo/psalm": "^4.9"

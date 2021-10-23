@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace MicroModule\ValueObject\Tests\Unit\DateTime;
 
+use DateTime;
 use MicroModule\ValueObject\DateTime\Date;
+use MicroModule\ValueObject\DateTime\Exception\InvalidDateException;
 use MicroModule\ValueObject\DateTime\Month;
 use MicroModule\ValueObject\DateTime\MonthDay;
 use MicroModule\ValueObject\DateTime\Year;
@@ -23,7 +25,7 @@ class DateTest extends TestCase
 
     public function testFromNativeDateTime(): void
     {
-        $nativeDate = new \DateTime();
+        $nativeDate = new DateTime();
         $nativeDate->setDate(2013, 12, 3);
         $dateFromNative = Date::fromNativeDateTime($nativeDate);
         $constructedDate = new Date(new Year(2013), Month::DECEMBER(), new MonthDay(3));
@@ -34,12 +36,12 @@ class DateTest extends TestCase
     public function testNow(): void
     {
         $date = Date::now();
-        $this->assertEquals(date('Y-n-j'), (string) $date);
+        $this->assertEquals(date('Y-n-j'), (string)$date);
     }
 
-    /** @expectedException MicroModule\ValueObject\DateTime\Exception\InvalidDateException */
     public function testAlmostValidDateException(): void
     {
+        self::expectError();
         new Date(new Year(2013), Month::FEBRUARY(), new MonthDay(31));
     }
 
