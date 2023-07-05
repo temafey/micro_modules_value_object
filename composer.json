@@ -6,7 +6,7 @@
     "require": {
         "php": "^8.0",
         "marc-mabe/php-enum": "^4.0",
-        "micro-module/geotools": "^0.8.3",
+        "micro-module/geotools": "^0.8",
         "micro-module/laminas-validator": "^2.14",
         "moneyphp/money": "^4.0",
         "ramsey/uuid": "^4.2"
