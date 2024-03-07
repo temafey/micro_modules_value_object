@@ -24,7 +24,6 @@ class TimeZone implements ValueObjectInterface
     public static function fromNative(): static
     {
         $args = func_get_args();
-
         $name = new StringLiteral($args[0]);
 
         return new static($name);

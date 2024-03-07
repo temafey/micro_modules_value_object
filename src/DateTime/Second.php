@@ -27,7 +27,6 @@ class Second extends Natural
         $options = [
             'options' => ['min_range' => self::MIN_SECOND, 'max_range' => self::MAX_SECOND],
         ];
-
         $value = filter_var($value, FILTER_VALIDATE_INT, $options);
 
         if (false === $value) {

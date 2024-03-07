@@ -27,7 +27,6 @@ class MonthDay extends Natural
         $options = [
             'options' => ['min_range' => self::MIN_MONTH_DAY, 'max_range' => self::MAX_MONTH_DAY],
         ];
-
         $value = filter_var($value, FILTER_VALIDATE_INT, $options);
 
         if (false === $value) {

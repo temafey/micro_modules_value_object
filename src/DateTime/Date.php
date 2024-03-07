@@ -39,9 +39,11 @@ class Date implements ValueObjectInterface
         $args = func_get_args();
 
         if (!isset($args[1])) {
-            $dateTime = new DateTime('@' . strtotime($args[0]));
+            if (!$args[0] instanceof DateTime) {
+                $args[0] = new DateTime('@' . strtotime($args[0]));
+            }
 
-            return self::fromNativeDateTime($dateTime);
+            return self::fromNativeDateTime($args[0]);
         }
 
         $year = new Year($args[0]);
@@ -100,9 +102,14 @@ class Date implements ValueObjectInterface
         $nativeDateErrors = DateTime::getLastErrors();
 
         if (
-            false === $dateTime
-            || 0 < $nativeDateErrors['warning_count']
-            || 0 < $nativeDateErrors['error_count']
+            false === $dateTime ||
+            (
+                is_array($nativeDateErrors) &&
+                (
+                    0 < $nativeDateErrors['warning_count'] ||
+                    0 < $nativeDateErrors['error_count']
+                )
+            )
         ) {
             throw new InvalidDateException($year->toNative(), $month->toNative(), $day->toNative());
         }

@@ -38,9 +38,11 @@ class Time implements ValueObjectInterface
         $args = func_get_args();
 
         if (!isset($args[1])) {
-            $dateTime = new DateTime('@' . strtotime($args[0]));
+            if (!$args[0] instanceof DateTime) {
+                $args[0] = new DateTime('@' . strtotime($args[0]));
+            }
 
-            return static::fromNativeDateTime($dateTime);
+            return static::fromNativeDateTime($args[0]);
         }
 
         $hour = new Hour($args[0]);

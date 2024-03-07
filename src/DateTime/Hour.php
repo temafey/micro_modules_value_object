@@ -36,7 +36,6 @@ class Hour extends Natural
         $options = [
             'options' => ['min_range' => self::MIN_HOUR, 'max_range' => self::MAX_HOUR],
         ];
-
         $value = filter_var($value, FILTER_VALIDATE_INT, $options);
 
         if (false === $value) {
