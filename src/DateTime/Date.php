@@ -40,7 +40,13 @@ class Date implements ValueObjectInterface
 
         if (!isset($args[1])) {
             if (!$args[0] instanceof DateTime) {
-                $args[0] = new DateTime('@' . strtotime($args[0]));
+                if (is_array($args[0]) && isset($args[0]["date"]) && isset($args[0]["timezone"])) {
+                    $args[0] = new DateTime($args[0]["date"], new \DateTimeZone($args[0]["timezone"]));
+                } elseif (is_string($args[0])) {
+                    $args[0] = new DateTime('@' . strtotime($args[0]));
+                } else {
+                    throw new Exception("Invalid date format!");
+                }
             }
 
             return self::fromNativeDateTime($args[0]);
