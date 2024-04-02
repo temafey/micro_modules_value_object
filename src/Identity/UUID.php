@@ -21,7 +21,7 @@ class UUID extends StringLiteral
 
     protected const UUID_VERSION_6 = 6;
 
-    protected int $uuidVersion = self::UUID_VERSION_4;
+    protected int $uuidVersion = self::UUID_VERSION_6;
 
     /**
      * UuidInterface object.
