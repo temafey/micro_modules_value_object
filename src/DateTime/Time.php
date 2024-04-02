@@ -6,6 +6,7 @@ namespace MicroModule\ValueObject\DateTime;
 
 use MicroModule\ValueObject\ValueObjectInterface;
 use DateTime;
+use DateTimeInterface;
 use Exception;
 
 /**
@@ -38,7 +39,7 @@ class Time implements ValueObjectInterface
         $args = func_get_args();
 
         if (!isset($args[1])) {
-            if (!$args[0] instanceof DateTime) {
+            if (!$args[0] instanceof DateTimeInterface) {
                 if (is_array($args[0]) && isset($args[0]["date"]) && isset($args[0]["timezone"])) {
                     $args[0] = new DateTime($args[0]["date"], new \DateTimeZone($args[0]["timezone"]));
                 } elseif (is_string($args[0])) {
@@ -62,7 +63,7 @@ class Time implements ValueObjectInterface
      *
      * @throws Exception
      */
-    public static function fromNativeDateTime(DateTime $time): static
+    public static function fromNativeDateTime(DateTimeInterface $time): static
     {
         $hour = (int)$time->format('G');
         $minute = (int)$time->format('i');
@@ -76,7 +77,7 @@ class Time implements ValueObjectInterface
      *
      * @throws Exception
      */
-    public function toNative(): DateTime
+    public function toNative(): DateTimeInterface
     {
         return $this->toNativeDateTime();
     }
@@ -156,7 +157,7 @@ class Time implements ValueObjectInterface
      *
      * @throws Exception
      */
-    public function toNativeDateTime(): DateTime
+    public function toNativeDateTime(): DateTimeInterface
     {
         $hour = $this->getHour()->toNative();
         $minute = $this->getMinute()->toNative();

@@ -6,6 +6,7 @@ namespace MicroModule\ValueObject\DateTime;
 
 use MicroModule\ValueObject\Enum\Enum;
 use DateTime;
+use DateTimeInterface;
 use Exception;
 
 /**
@@ -42,7 +43,7 @@ class WeekDay extends Enum
      *
      * @return WeekDay
      */
-    public static function fromNativeDateTime(DateTime $date): self
+    public static function fromNativeDateTime(DateTimeInterface $date): self
     {
         $weekDay = strtoupper($date->format('l'));
 

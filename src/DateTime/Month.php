@@ -6,6 +6,7 @@ namespace MicroModule\ValueObject\DateTime;
 
 use MicroModule\ValueObject\Enum\Enum;
 use DateTime;
+use DateTimeInterface;
 use Exception;
 
 /**
@@ -43,11 +44,11 @@ class Month extends Enum
     /**
      * Returns Month from a native PHP DateTime.
      *
-     * @param DateTime $date
+     * @param DateTimeInterface $date
      *
      * @return Month
      */
-    public static function fromNativeDateTime(DateTime $date): self
+    public static function fromNativeDateTime(DateTimeInterface $date): self
     {
         $month = strtoupper($date->format('F'));
 

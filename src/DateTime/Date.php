@@ -7,6 +7,7 @@ namespace MicroModule\ValueObject\DateTime;
 use MicroModule\ValueObject\DateTime\Exception\InvalidDateException;
 use MicroModule\ValueObject\ValueObjectInterface;
 use DateTime;
+use DateTimeInterface;
 use Exception;
 
 /**
@@ -39,7 +40,7 @@ class Date implements ValueObjectInterface
         $args = func_get_args();
 
         if (!isset($args[1])) {
-            if (!$args[0] instanceof DateTime) {
+            if (!$args[0] instanceof DateTimeInterface) {
                 if (is_array($args[0]) && isset($args[0]["date"]) && isset($args[0]["timezone"])) {
                     $args[0] = new DateTime($args[0]["date"], new \DateTimeZone($args[0]["timezone"]));
                 } elseif (is_string($args[0])) {
@@ -65,7 +66,7 @@ class Date implements ValueObjectInterface
      *
      * @throws Exception
      */
-    public function toNative(): DateTime
+    public function toNative(): DateTimeInterface
     {
         return $this->toNativeDateTime();
     }
@@ -75,7 +76,7 @@ class Date implements ValueObjectInterface
      *
      * @throws InvalidDateException
      */
-    public static function fromNativeDateTime(DateTime $date): static
+    public static function fromNativeDateTime(DateTimeInterface $date): static
     {
         $year = (int)$date->format('Y');
         $month = Month::fromNativeDateTime($date);
@@ -176,7 +177,7 @@ class Date implements ValueObjectInterface
      *
      * @throws Exception
      */
-    public function toNativeDateTime(): DateTime
+    public function toNativeDateTime(): DateTimeInterface
     {
         $year = $this->getYear()->toNative();
         $month = $this->getMonth()->getNumericValue();
