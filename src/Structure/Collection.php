@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace MicroModule\ValueObject\Structure;
 
+use MicroModule\ValueObject\Logical\Boolean;
 use MicroModule\ValueObject\NullValue\NullValue;
 use MicroModule\ValueObject\Number\Integer;
 use MicroModule\ValueObject\Number\Natural;
@@ -66,6 +67,8 @@ class Collection implements ValueObjectInterface
             $item = Real::fromNative($item);
         } elseif (null === $item) {
             $item = new NullValue();
+        } elseif (is_bool($item)) {
+            $item = Boolean::fromNative($item);
         } else {
             $item = StringLiteral::fromNative((string)$item);
         }
