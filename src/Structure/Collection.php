@@ -26,6 +26,11 @@ class Collection implements ValueObjectInterface
      */
     protected SplFixedArray $items;
 
+    public function getItems(): iterable
+    {
+        return $this->items;
+    }
+
     /**
      * Returns a new Collection object.
      */
