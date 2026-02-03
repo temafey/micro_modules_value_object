@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace MicroModule\ValueObject\Web;
 
 use MicroModule\ValueObject\Exception\InvalidNativeArgumentException;
-use Zend\Validator\Hostname as Validator;
 
 /**
  * Class Hostname.
@@ -19,9 +18,7 @@ class Hostname extends Domain
      */
     public function __construct(string $value)
     {
-        $validator = new Validator(['allow' => Validator::ALLOW_DNS | Validator::ALLOW_LOCAL]);
-
-        if (false === $validator->isValid($value)) {
+        if (false === filter_var($value, FILTER_VALIDATE_DOMAIN, FILTER_FLAG_HOSTNAME)) {
             throw new InvalidNativeArgumentException($value, ['string (valid hostname)']);
         }
 
